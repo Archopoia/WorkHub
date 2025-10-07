@@ -1,5 +1,10 @@
 // WorkHub - JavaScript for interactive features
 
+// Initialize EmailJS
+(function() {
+    emailjs.init("Zx7ekz9X_dS5zlD58"); // Replace with your EmailJS public key
+})();
+
 document.addEventListener('DOMContentLoaded', function() {
 
     // Smooth scrolling for navigation links
@@ -144,6 +149,117 @@ window.addEventListener('load', function() {
             heroContent.style.transition = 'opacity 1s ease';
             heroContent.style.opacity = '1';
         }, 100);
+    }
+});
+
+// ============================================
+// FORMULAIRE FUNCTIONS
+// ============================================
+
+function showForm(formType) {
+    const formId = formType === 'contact' ? 'contactForm' : 'interviewForm';
+    const form = document.getElementById(formId);
+
+    if (form) {
+        form.style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    }
+}
+
+function hideForm() {
+    const forms = document.querySelectorAll('.form-container');
+    forms.forEach(form => {
+        form.style.display = 'none';
+    });
+    document.body.style.overflow = 'auto'; // Restore scrolling
+}
+
+function submitForm(event) {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData.entries());
+
+    // Prepare email template parameters
+    const templateParams = {
+        to_email: 'hugues.ii.w.b.depingon@gmail.com',
+        from_name: data.userType || 'Utilisateur WorkHub',
+        user_type: data.userType || 'Non spécifié',
+        sector: data.sector || 'Non spécifié',
+        experience: data.experience || 'Non spécifié',
+        interested: data.interested || 'Non spécifié',
+        email: data.email || 'Non fourni',
+        details: data.details || 'Aucun détail fourni',
+        message: `Nouveau lead WorkHub !
+
+Type: ${data.userType}
+Secteur: ${data.sector}
+Expérience: ${data.experience}
+Intéressé: ${data.interested}
+Email: ${data.email}
+Détails: ${data.details || 'Aucun'}`
+    };
+
+    // Send email using EmailJS
+    emailjs.send('service_95ikcg4', 'workhub_contact', templateParams)
+        .then(function(response) {
+            console.log('Email sent successfully!', response.status, response.text);
+            alert('Merci ! Nous vous contacterons bientôt pour l\'aventure WorkHub !');
+            hideForm();
+            event.target.reset();
+        }, function(error) {
+            console.log('Failed to send email:', error);
+            alert('Erreur lors de l\'envoi. Veuillez réessayer ou nous contacter directement.');
+        });
+}
+
+function submitInterview(event) {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData.entries());
+
+    // Collect checkbox values
+    const questTypes = formData.getAll('questTypes');
+    const rewards = formData.getAll('rewards');
+
+    // Prepare email template parameters
+    const templateParams = {
+        to_email: 'hugues.ii.w.b.depingon@gmail.com',
+        from_name: 'Utilisateur Interview WorkHub',
+        quest_types: questTypes.join(', ') || 'Aucun sélectionné',
+        duration: data.duration || 'Non spécifié',
+        difficulty: data.difficulty || 'Non spécifié',
+        rewards: rewards.join(', ') || 'Aucun sélectionné',
+        quest_idea: data.questIdea || 'Aucune idée fournie',
+        email: data.email || 'Non fourni',
+        message: `Nouvelle idée de quête WorkHub !
+
+Types de quêtes: ${questTypes.join(', ')}
+Durée: ${data.duration}
+Difficulté: ${data.difficulty}
+Récompenses: ${rewards.join(', ')}
+Idée: ${data.questIdea || 'Aucune'}
+Email: ${data.email || 'Non fourni'}`
+    };
+
+    // Send email using EmailJS
+    emailjs.send('service_95ikcg4', 'workhub_interview', templateParams)
+        .then(function(response) {
+            console.log('Interview email sent successfully!', response.status, response.text);
+            alert('Merci pour vos idées ! Elles nous aideront à créer les meilleures quêtes WorkHub !');
+            hideForm();
+            event.target.reset();
+        }, function(error) {
+            console.log('Failed to send interview email:', error);
+            alert('Erreur lors de l\'envoi. Veuillez réessayer ou nous contacter directement.');
+        });
+}
+
+// Close form on Escape key
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        hideForm();
     }
 });
 
