@@ -168,7 +168,7 @@ function showForm(formType) {
         if (formType === 'contact') {
             // Reset all fields first
             toggleUserTypeFields(null);
-            
+
             const event = window.event || {};
             const buttonText = event.target ? event.target.textContent : '';
             if (buttonText.includes('candidat')) {
@@ -200,7 +200,7 @@ function hideForm() {
         form.style.display = 'none';
     });
     document.body.style.overflow = 'auto'; // Restore scrolling
-    
+
     // Reset all user type fields
     toggleUserTypeFields(null);
 }
@@ -212,7 +212,7 @@ function toggleUserTypeFields(userType) {
         'companyFields', 'companySector', 'companyNeeds', 'companyUrgency',
         'investorFields', 'investorAmount', 'investorSector', 'investorTimeline'
     ];
-    
+
     allFieldGroups.forEach(groupId => {
         const group = document.getElementById(groupId);
         if (group) {
@@ -224,7 +224,7 @@ function toggleUserTypeFields(userType) {
             });
         }
     });
-    
+
     // Show and require fields based on user type
     if (userType === 'candidat') {
         const candidatGroups = ['candidatFields', 'candidatSector', 'candidatExperience', 'candidatAvailability'];
@@ -267,7 +267,7 @@ function submitForm(event) {
 
     // Prepare email template parameters with specific fields per user type
     let specificFields = '';
-    
+
     if (data.userType === 'candidat') {
         specificFields = `Type de poste: ${data.candidatJobType || 'Non spécifié'}
 Secteur: ${data.sector || 'Non spécifié'}
@@ -284,7 +284,7 @@ Montant: ${data.amount || 'Non spécifié'}
 Secteur d'intérêt: ${data.sector || 'Non spécifié'}
 Horizon: ${data.timeline || 'Non spécifié'}`;
     }
-    
+
     const templateParams = {
         to_email: 'hugues.ii.w.b.depingon@gmail.com',
         from_name: data.userType || 'Utilisateur WorkHub',
