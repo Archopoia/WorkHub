@@ -1,0 +1,18 @@
+# WorkHub - Site Configuration
+# Transformez la recherche d'emploi en aventure engageante
+
+title: WorkHub - L'Aventure de l'Emploi
+description: Transformez votre CV en avatar. Accomplissez des missions. Prouvez vos compétences. WorkHub révolutionne le recrutement en en faisant un serious game motivant et engageant.
+
+# Configuration GitHub Pages
+theme: jekyll-theme-minimal
+baseurl: /WorkHub
+url: https://archopoia.github.io
+
+# Métadonnées pour le SEO
+author: Hugues de Pingon
+keywords: recrutement, serious game, emploi, gamification, WorkHub, GENILEM, startup
+
+# Configuration du site
+lang: fr
+timezone: Europe/Paris
