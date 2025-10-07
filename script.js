@@ -166,28 +166,28 @@ function showForm(formType) {
 
         // Pre-fill user type based on button clicked
         if (formType === 'contact') {
-            // Reset investor fields first
-            toggleInvestorFields(false);
-
+            // Reset all fields first
+            toggleUserTypeFields(null);
+            
             const event = window.event || {};
             const buttonText = event.target ? event.target.textContent : '';
             if (buttonText.includes('candidat')) {
                 const candidatRadio = form.querySelector('input[value="candidat"]');
                 if (candidatRadio) {
                     candidatRadio.checked = true;
-                    toggleInvestorFields(false);
+                    toggleUserTypeFields('candidat');
                 }
             } else if (buttonText.includes('entreprise')) {
                 const entrepriseRadio = form.querySelector('input[value="entreprise"]');
                 if (entrepriseRadio) {
                     entrepriseRadio.checked = true;
-                    toggleInvestorFields(false);
+                    toggleUserTypeFields('entreprise');
                 }
             } else if (buttonText.includes('investisseur')) {
                 const investisseurRadio = form.querySelector('input[value="investisseur"]');
                 if (investisseurRadio) {
                     investisseurRadio.checked = true;
-                    toggleInvestorFields(true);
+                    toggleUserTypeFields('investisseur');
                 }
             }
         }
@@ -200,39 +200,62 @@ function hideForm() {
         form.style.display = 'none';
     });
     document.body.style.overflow = 'auto'; // Restore scrolling
-
-    // Reset investor fields
-    toggleInvestorFields(false);
+    
+    // Reset all user type fields
+    toggleUserTypeFields(null);
 }
 
-function toggleInvestorFields(show) {
-    const investorFields = document.getElementById('investorFields');
-    const investorAmount = document.getElementById('investorAmount');
-
-    if (investorFields && investorAmount) {
-        if (show) {
-            investorFields.style.display = 'block';
-            investorAmount.style.display = 'block';
-            // Make fields required
-            const investmentTypeRadios = investorFields.querySelectorAll('input[name="investmentType"]');
-            const amountRadios = investorAmount.querySelectorAll('input[name="amount"]');
-            investmentTypeRadios.forEach(radio => radio.setAttribute('required', 'required'));
-            amountRadios.forEach(radio => radio.setAttribute('required', 'required'));
-        } else {
-            investorFields.style.display = 'none';
-            investorAmount.style.display = 'none';
-            // Remove required attribute
-            const investmentTypeRadios = investorFields.querySelectorAll('input[name="investmentType"]');
-            const amountRadios = investorAmount.querySelectorAll('input[name="amount"]');
-            investmentTypeRadios.forEach(radio => {
-                radio.removeAttribute('required');
-                radio.checked = false;
-            });
-            amountRadios.forEach(radio => {
+function toggleUserTypeFields(userType) {
+    // Hide all specific fields first
+    const allFieldGroups = [
+        'candidatFields', 'candidatSector', 'candidatExperience', 'candidatAvailability',
+        'companyFields', 'companySector', 'companyNeeds', 'companyUrgency',
+        'investorFields', 'investorAmount', 'investorSector', 'investorTimeline'
+    ];
+    
+    allFieldGroups.forEach(groupId => {
+        const group = document.getElementById(groupId);
+        if (group) {
+            group.style.display = 'none';
+            // Remove required and clear selections
+            group.querySelectorAll('input[type="radio"]').forEach(radio => {
                 radio.removeAttribute('required');
                 radio.checked = false;
             });
         }
+    });
+    
+    // Show and require fields based on user type
+    if (userType === 'candidat') {
+        const candidatGroups = ['candidatFields', 'candidatSector', 'candidatExperience', 'candidatAvailability'];
+        candidatGroups.forEach(groupId => {
+            const group = document.getElementById(groupId);
+            if (group) {
+                group.style.display = 'block';
+                const radios = group.querySelectorAll('input[type="radio"]');
+                radios.forEach(radio => radio.setAttribute('required', 'required'));
+            }
+        });
+    } else if (userType === 'entreprise') {
+        const companyGroups = ['companyFields', 'companySector', 'companyNeeds', 'companyUrgency'];
+        companyGroups.forEach(groupId => {
+            const group = document.getElementById(groupId);
+            if (group) {
+                group.style.display = 'block';
+                const radios = group.querySelectorAll('input[type="radio"]');
+                radios.forEach(radio => radio.setAttribute('required', 'required'));
+            }
+        });
+    } else if (userType === 'investisseur') {
+        const investorGroups = ['investorFields', 'investorAmount', 'investorSector', 'investorTimeline'];
+        investorGroups.forEach(groupId => {
+            const group = document.getElementById(groupId);
+            if (group) {
+                group.style.display = 'block';
+                const radios = group.querySelectorAll('input[type="radio"]');
+                radios.forEach(radio => radio.setAttribute('required', 'required'));
+            }
+        });
     }
 }
 
@@ -242,28 +265,41 @@ function submitForm(event) {
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
 
-    // Prepare email template parameters
+    // Prepare email template parameters with specific fields per user type
+    let specificFields = '';
+    
+    if (data.userType === 'candidat') {
+        specificFields = `Type de poste: ${data.candidatJobType || 'Non spécifié'}
+Secteur: ${data.sector || 'Non spécifié'}
+Expérience: ${data.experience || 'Non spécifié'}
+Disponibilité: ${data.availability || 'Non spécifié'}`;
+    } else if (data.userType === 'entreprise') {
+        specificFields = `Taille entreprise: ${data.companySize || 'Non spécifié'}
+Secteur: ${data.sector || 'Non spécifié'}
+Besoins de recrutement: ${data.hiringNeeds || 'Non spécifié'}
+Urgence: ${data.urgency || 'Non spécifié'}`;
+    } else if (data.userType === 'investisseur') {
+        specificFields = `Type d'investissement: ${data.investmentType || 'Non spécifié'}
+Montant: ${data.amount || 'Non spécifié'}
+Secteur d'intérêt: ${data.sector || 'Non spécifié'}
+Horizon: ${data.timeline || 'Non spécifié'}`;
+    }
+    
     const templateParams = {
         to_email: 'hugues.ii.w.b.depingon@gmail.com',
         from_name: data.userType || 'Utilisateur WorkHub',
         user_type: data.userType || 'Non spécifié',
-        sector: data.sector || 'Non spécifié',
-        experience: data.experience || 'Non spécifié',
         interested: data.interested || 'Non spécifié',
         email: data.email || 'Non fourni',
         details: data.details || 'Aucun détail fourni',
-        investment_type: data.investmentType || 'Non spécifié',
-        amount: data.amount || 'Non spécifié',
         message: `Nouveau lead WorkHub !
 
 Type: ${data.userType}
-Secteur: ${data.sector}
-Expérience: ${data.experience}
+
+${specificFields}
+
 Intéressé: ${data.interested}
 Email: ${data.email}
-
-${data.userType === 'investisseur' ? `Type d'investissement: ${data.investmentType || 'Non spécifié'}
-Montant: ${data.amount || 'Non spécifié'}` : ''}
 
 Détails: ${data.details || 'Aucun'}`
     };
@@ -331,16 +367,12 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
-// Toggle investor fields when user type changes
+// Toggle user type fields when user type changes
 document.addEventListener('DOMContentLoaded', function() {
     const userTypeRadios = document.querySelectorAll('input[name="userType"]');
     userTypeRadios.forEach(radio => {
         radio.addEventListener('change', function() {
-            if (this.value === 'investisseur') {
-                toggleInvestorFields(true);
-            } else {
-                toggleInvestorFields(false);
-            }
+            toggleUserTypeFields(this.value);
         });
     });
 });

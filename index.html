@@ -264,7 +264,93 @@
                                 </div>
                             </div>
 
-                            <!-- Champs spécifiques aux investisseurs -->
+                            <!-- Champs spécifiques aux CANDIDATS -->
+                            <div id="candidatFields" class="form-group" style="display: none;">
+                                <label>Type de poste recherché :</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="candidatJobType" value="cdi"> CDI</label>
+                                    <label><input type="radio" name="candidatJobType" value="cdd"> CDD</label>
+                                    <label><input type="radio" name="candidatJobType" value="freelance"> Freelance</label>
+                                    <label><input type="radio" name="candidatJobType" value="stage"> Stage</label>
+                                </div>
+                            </div>
+
+                            <div id="candidatSector" class="form-group" style="display: none;">
+                                <label>Secteur d'activité :</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="sector" value="tech"> Tech</label>
+                                    <label><input type="radio" name="sector" value="finance"> Finance</label>
+                                    <label><input type="radio" name="sector" value="marketing"> Marketing</label>
+                                    <label><input type="radio" name="sector" value="sante"> Santé</label>
+                                    <label><input type="radio" name="sector" value="education"> Éducation</label>
+                                    <label><input type="radio" name="sector" value="autre"> Autre</label>
+                                </div>
+                            </div>
+
+                            <div id="candidatExperience" class="form-group" style="display: none;">
+                                <label>Niveau d'expérience :</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="experience" value="debutant"> Débutant (0-2 ans)</label>
+                                    <label><input type="radio" name="experience" value="intermediaire"> Intermédiaire (2-5 ans)</label>
+                                    <label><input type="radio" name="experience" value="senior"> Senior (5-10 ans)</label>
+                                    <label><input type="radio" name="experience" value="expert"> Expert (10+ ans)</label>
+                                </div>
+                            </div>
+
+                            <div id="candidatAvailability" class="form-group" style="display: none;">
+                                <label>Disponibilité :</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="availability" value="immediate"> Immédiate</label>
+                                    <label><input type="radio" name="availability" value="1mois"> Dans 1 mois</label>
+                                    <label><input type="radio" name="availability" value="3mois"> Dans 3 mois</label>
+                                    <label><input type="radio" name="availability" value="flexible"> Flexible</label>
+                                </div>
+                            </div>
+
+                            <!-- Champs spécifiques aux ENTREPRISES -->
+                            <div id="companyFields" class="form-group" style="display: none;">
+                                <label>Taille de l'entreprise :</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="companySize" value="1-10"> 1-10 employés</label>
+                                    <label><input type="radio" name="companySize" value="11-50"> 11-50 employés</label>
+                                    <label><input type="radio" name="companySize" value="51-200"> 51-200 employés</label>
+                                    <label><input type="radio" name="companySize" value="200+"> 200+ employés</label>
+                                </div>
+                            </div>
+
+                            <div id="companySector" class="form-group" style="display: none;">
+                                <label>Secteur d'activité :</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="sector" value="tech"> Tech</label>
+                                    <label><input type="radio" name="sector" value="finance"> Finance</label>
+                                    <label><input type="radio" name="sector" value="marketing"> Marketing</label>
+                                    <label><input type="radio" name="sector" value="sante"> Santé</label>
+                                    <label><input type="radio" name="sector" value="education"> Éducation</label>
+                                    <label><input type="radio" name="sector" value="autre"> Autre</label>
+                                </div>
+                            </div>
+
+                            <div id="companyNeeds" class="form-group" style="display: none;">
+                                <label>Besoins de recrutement :</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="hiringNeeds" value="1-5"> 1-5 postes/an</label>
+                                    <label><input type="radio" name="hiringNeeds" value="6-20"> 6-20 postes/an</label>
+                                    <label><input type="radio" name="hiringNeeds" value="20+"> 20+ postes/an</label>
+                                    <label><input type="radio" name="hiringNeeds" value="ponctuel"> Besoins ponctuels</label>
+                                </div>
+                            </div>
+
+                            <div id="companyUrgency" class="form-group" style="display: none;">
+                                <label>Urgence du recrutement :</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="urgency" value="immediate"> Immédiate (< 1 mois)</label>
+                                    <label><input type="radio" name="urgency" value="court-terme"> Court terme (1-3 mois)</label>
+                                    <label><input type="radio" name="urgency" value="moyen-terme"> Moyen terme (3-6 mois)</label>
+                                    <label><input type="radio" name="urgency" value="exploration"> En exploration</label>
+                                </div>
+                            </div>
+
+                            <!-- Champs spécifiques aux INVESTISSEURS -->
                             <div id="investorFields" class="form-group" style="display: none;">
                                 <label>Type d'investissement :</label>
                                 <div class="radio-group">
@@ -285,28 +371,29 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label>Secteur d'activité :</label>
+                            <div id="investorSector" class="form-group" style="display: none;">
+                                <label>Secteur d'intérêt :</label>
                                 <div class="radio-group">
-                                    <label><input type="radio" name="sector" value="tech" required> Tech</label>
-                                    <label><input type="radio" name="sector" value="finance" required> Finance</label>
-                                    <label><input type="radio" name="sector" value="marketing" required> Marketing</label>
-                                    <label><input type="radio" name="sector" value="sante" required> Santé</label>
-                                    <label><input type="radio" name="sector" value="education" required> Éducation</label>
-                                    <label><input type="radio" name="sector" value="autre" required> Autre</label>
+                                    <label><input type="radio" name="sector" value="tech"> Tech</label>
+                                    <label><input type="radio" name="sector" value="finance"> Finance</label>
+                                    <label><input type="radio" name="sector" value="marketing"> Marketing</label>
+                                    <label><input type="radio" name="sector" value="sante"> Santé</label>
+                                    <label><input type="radio" name="sector" value="education"> Éducation</label>
+                                    <label><input type="radio" name="sector" value="autre"> Autre</label>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label>Niveau d'expérience :</label>
+                            <div id="investorTimeline" class="form-group" style="display: none;">
+                                <label>Horizon d'investissement :</label>
                                 <div class="radio-group">
-                                    <label><input type="radio" name="experience" value="debutant" required> Débutant</label>
-                                    <label><input type="radio" name="experience" value="intermediaire" required> Intermédiaire</label>
-                                    <label><input type="radio" name="experience" value="senior" required> Senior</label>
-                                    <label><input type="radio" name="experience" value="expert" required> Expert</label>
+                                    <label><input type="radio" name="timeline" value="immediate"> Immédiat</label>
+                                    <label><input type="radio" name="timeline" value="3mois"> 3 mois</label>
+                                    <label><input type="radio" name="timeline" value="6mois"> 6 mois</label>
+                                    <label><input type="radio" name="timeline" value="exploration"> En exploration</label>
                                 </div>
                             </div>
 
+                            <!-- Champ commun : Intéressé -->
                             <div class="form-group">
                                 <label>Intéressé par WorkHub ?</label>
                                 <div class="radio-group">
