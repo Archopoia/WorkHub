@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -239,7 +240,168 @@
                 <h2>À WorkHub, chercher un emploi devient une aventure qui fait grandir.</h2>
                 <p class="cta-tagline">Remplaçons les promesses par des preuves.</p>
                 <div class="cta-buttons">
-                    <a href="mailto:hugues.ii.w.b.depingon@gmail.com" class="btn btn-primary btn-large">Rejoignez l'aventure</a>
+                    <button onclick="showForm('contact')" class="btn btn-primary btn-large">Je suis candidat</button>
+                    <button onclick="showForm('contact')" class="btn btn-secondary btn-large">Je suis entreprise</button>
+                    <button onclick="showForm('contact')" class="btn btn-primary btn-large">Je suis investisseur</button>
+                    <button onclick="showForm('interview')" class="btn btn-secondary btn-large">Partagez vos idées de quêtes</button>
+                </div>
+
+                <!-- Formulaire de contact -->
+                <div id="contactForm" class="form-container" style="display: none;">
+                    <div class="form-overlay" onclick="hideForm()"></div>
+                    <div class="form-modal">
+                        <div class="form-header">
+                            <h3>Rejoignez l'aventure WorkHub</h3>
+                            <button onclick="hideForm()" class="close-btn">&times;</button>
+                        </div>
+                        <form id="workhubForm" onsubmit="submitForm(event)">
+                            <div class="form-group">
+                                <label>Vous êtes :</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="userType" value="candidat" required> Candidat à la recherche d'emploi</label>
+                                    <label><input type="radio" name="userType" value="entreprise" required> Entreprise/Recruteur</label>
+                                    <label><input type="radio" name="userType" value="investisseur" required> Investisseur</label>
+                                </div>
+                            </div>
+
+                            <!-- Champs spécifiques aux investisseurs -->
+                            <div id="investorFields" class="form-group" style="display: none;">
+                                <label>Type d'investissement :</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="investmentType" value="seed"> Seed (50k-500k€)</label>
+                                    <label><input type="radio" name="investmentType" value="serie-a"> Série A (500k-2M€)</label>
+                                    <label><input type="radio" name="investmentType" value="serie-b"> Série B+ (2M€+)</label>
+                                    <label><input type="radio" name="investmentType" value="strategique"> Stratégique</label>
+                                </div>
+                            </div>
+
+                            <div id="investorAmount" class="form-group" style="display: none;">
+                                <label>Montant d'investissement :</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="amount" value="50k-100k"> 50k-100k€</label>
+                                    <label><input type="radio" name="amount" value="100k-500k"> 100k-500k€</label>
+                                    <label><input type="radio" name="amount" value="500k-1m"> 500k-1M€</label>
+                                    <label><input type="radio" name="amount" value="1m+"> 1M€+</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Secteur d'activité :</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="sector" value="tech" required> Tech</label>
+                                    <label><input type="radio" name="sector" value="finance" required> Finance</label>
+                                    <label><input type="radio" name="sector" value="marketing" required> Marketing</label>
+                                    <label><input type="radio" name="sector" value="sante" required> Santé</label>
+                                    <label><input type="radio" name="sector" value="education" required> Éducation</label>
+                                    <label><input type="radio" name="sector" value="autre" required> Autre</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Niveau d'expérience :</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="experience" value="debutant" required> Débutant</label>
+                                    <label><input type="radio" name="experience" value="intermediaire" required> Intermédiaire</label>
+                                    <label><input type="radio" name="experience" value="senior" required> Senior</label>
+                                    <label><input type="radio" name="experience" value="expert" required> Expert</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Intéressé par WorkHub ?</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="interested" value="oui" required> Oui, très intéressé !</label>
+                                    <label><input type="radio" name="interested" value="peut-etre" required> Peut-être, je veux en savoir plus</label>
+                                    <label><input type="radio" name="interested" value="non" required> Non, pas pour le moment</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Email de contact :</label>
+                                <input type="email" name="email" required placeholder="votre@email.com">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Détails supplémentaires (optionnel) :</label>
+                                <textarea name="details" placeholder="Parlez-nous de vos besoins spécifiques..."></textarea>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Rejoindre l'aventure</button>
+                                <button type="button" onclick="hideForm()" class="btn btn-secondary">Annuler</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Formulaire d'interview -->
+                <div id="interviewForm" class="form-container" style="display: none;">
+                    <div class="form-overlay" onclick="hideForm()"></div>
+                    <div class="form-modal">
+                        <div class="form-header">
+                            <h3>Partagez vos idées de quêtes</h3>
+                            <button onclick="hideForm()" class="close-btn">&times;</button>
+                        </div>
+                        <form id="interviewFormData" onsubmit="submitInterview(event)">
+                            <div class="form-group">
+                                <label>Quel type de quête vous intéresse le plus ? (choisissez 1-3)</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="questTypes" value="coding" required> Défis de programmation</label>
+                                    <label><input type="radio" name="questTypes" value="design" required> Création graphique/UI</label>
+                                    <label><input type="radio" name="questTypes" value="marketing" required> Stratégies marketing</label>
+                                    <label><input type="radio" name="questTypes" value="sales" required> Techniques de vente</label>
+                                    <label><input type="radio" name="questTypes" value="management" required> Gestion d'équipe</label>
+                                    <label><input type="radio" name="questTypes" value="analysis" required> Analyse de données</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Durée idéale d'une quête :</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="duration" value="15min" required> 15 minutes (rapide)</label>
+                                    <label><input type="radio" name="duration" value="30min" required> 30 minutes (optimal)</label>
+                                    <label><input type="radio" name="duration" value="1h" required> 1 heure (approfondi)</label>
+                                    <label><input type="radio" name="duration" value="plus" required> Plus d'1 heure (projet)</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Niveau de difficulté préféré :</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="difficulty" value="facile" required> Facile (débutant)</label>
+                                    <label><input type="radio" name="difficulty" value="moyen" required> Moyen (intermédiaire)</label>
+                                    <label><input type="radio" name="difficulty" value="difficile" required> Difficile (expert)</label>
+                                    <label><input type="radio" name="difficulty" value="mixte" required> Mixte (progression)</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Type de récompense motivant :</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="rewards" value="points" required> Points d'expérience</label>
+                                    <label><input type="radio" name="rewards" value="badges" required> Badges de compétences</label>
+                                    <label><input type="radio" name="rewards" value="ranking" required> Classement</label>
+                                    <label><input type="radio" name="rewards" value="feedback" required> Feedback détaillé</label>
+                                    <label><input type="radio" name="rewards" value="network" required> Réseautage</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Votre idée de quête parfaite :</label>
+                                <textarea name="questIdea" placeholder="Décrivez votre quête idéale... (ex: 'Créer un prototype d'app en 30min', 'Analyser des données de vente', etc.)" required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Email (optionnel) :</label>
+                                <input type="email" name="email" placeholder="votre@email.com">
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Partager mes idées</button>
+                                <button type="button" onclick="hideForm()" class="btn btn-secondary">Annuler</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

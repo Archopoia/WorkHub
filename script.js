@@ -163,6 +163,23 @@ function showForm(formType) {
     if (form) {
         form.style.display = 'flex';
         document.body.style.overflow = 'hidden'; // Prevent background scrolling
+
+        // Pre-fill user type based on button clicked
+        if (formType === 'contact') {
+            const event = window.event || {};
+            const buttonText = event.target ? event.target.textContent : '';
+            if (buttonText.includes('candidat')) {
+                const candidatRadio = form.querySelector('input[value="candidat"]');
+                if (candidatRadio) candidatRadio.checked = true;
+            } else if (buttonText.includes('entreprise')) {
+                const entrepriseRadio = form.querySelector('input[value="entreprise"]');
+                if (entrepriseRadio) entrepriseRadio.checked = true;
+            } else if (buttonText.includes('investisseur')) {
+                const investisseurRadio = form.querySelector('input[value="investisseur"]');
+                if (investisseurRadio) investisseurRadio.checked = true;
+                toggleInvestorFields(true);
+            }
+        }
     }
 }
 
@@ -172,6 +189,16 @@ function hideForm() {
         form.style.display = 'none';
     });
     document.body.style.overflow = 'auto'; // Restore scrolling
+}
+
+function toggleInvestorFields(show) {
+    const investorFields = document.getElementById('investorFields');
+    const investorAmount = document.getElementById('investorAmount');
+
+    if (investorFields && investorAmount) {
+        investorFields.style.display = show ? 'block' : 'none';
+        investorAmount.style.display = show ? 'block' : 'none';
+    }
 }
 
 function submitForm(event) {
@@ -190,6 +217,8 @@ function submitForm(event) {
         interested: data.interested || 'Non spécifié',
         email: data.email || 'Non fourni',
         details: data.details || 'Aucun détail fourni',
+        investment_type: data.investmentType || 'Non spécifié',
+        amount: data.amount || 'Non spécifié',
         message: `Nouveau lead WorkHub !
 
 Type: ${data.userType}
@@ -197,11 +226,15 @@ Secteur: ${data.sector}
 Expérience: ${data.experience}
 Intéressé: ${data.interested}
 Email: ${data.email}
+
+${data.userType === 'investisseur' ? `Type d'investissement: ${data.investmentType || 'Non spécifié'}
+Montant: ${data.amount || 'Non spécifié'}` : ''}
+
 Détails: ${data.details || 'Aucun'}`
     };
 
     // Send email using EmailJS
-    emailjs.send('service_95ikcg4', 'workhub_contact', templateParams)
+    emailjs.send('service_95ikcg4', 'template_p5z847d', templateParams)
         .then(function(response) {
             console.log('Email sent successfully!', response.status, response.text);
             alert('Merci ! Nous vous contacterons bientôt pour l\'aventure WorkHub !');
@@ -244,7 +277,7 @@ Email: ${data.email || 'Non fourni'}`
     };
 
     // Send email using EmailJS
-    emailjs.send('service_95ikcg4', 'workhub_interview', templateParams)
+    emailjs.send('service_95ikcg4', 'template_ejlclnl', templateParams)
         .then(function(response) {
             console.log('Interview email sent successfully!', response.status, response.text);
             alert('Merci pour vos idées ! Elles nous aideront à créer les meilleures quêtes WorkHub !');
@@ -261,5 +294,19 @@ document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape') {
         hideForm();
     }
+});
+
+// Toggle investor fields when user type changes
+document.addEventListener('DOMContentLoaded', function() {
+    const userTypeRadios = document.querySelectorAll('input[name="userType"]');
+    userTypeRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            if (this.value === 'investisseur') {
+                toggleInvestorFields(true);
+            } else {
+                toggleInvestorFields(false);
+            }
+        });
+    });
 });
 
