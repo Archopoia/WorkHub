@@ -159,25 +159,36 @@ window.addEventListener('load', function() {
 function showForm(formType) {
     const formId = formType === 'contact' ? 'contactForm' : 'interviewForm';
     const form = document.getElementById(formId);
-
+    
     if (form) {
         form.style.display = 'flex';
         document.body.style.overflow = 'hidden'; // Prevent background scrolling
-
+        
         // Pre-fill user type based on button clicked
         if (formType === 'contact') {
+            // Reset investor fields first
+            toggleInvestorFields(false);
+            
             const event = window.event || {};
             const buttonText = event.target ? event.target.textContent : '';
             if (buttonText.includes('candidat')) {
                 const candidatRadio = form.querySelector('input[value="candidat"]');
-                if (candidatRadio) candidatRadio.checked = true;
+                if (candidatRadio) {
+                    candidatRadio.checked = true;
+                    toggleInvestorFields(false);
+                }
             } else if (buttonText.includes('entreprise')) {
                 const entrepriseRadio = form.querySelector('input[value="entreprise"]');
-                if (entrepriseRadio) entrepriseRadio.checked = true;
+                if (entrepriseRadio) {
+                    entrepriseRadio.checked = true;
+                    toggleInvestorFields(false);
+                }
             } else if (buttonText.includes('investisseur')) {
                 const investisseurRadio = form.querySelector('input[value="investisseur"]');
-                if (investisseurRadio) investisseurRadio.checked = true;
-                toggleInvestorFields(true);
+                if (investisseurRadio) {
+                    investisseurRadio.checked = true;
+                    toggleInvestorFields(true);
+                }
             }
         }
     }
@@ -189,15 +200,39 @@ function hideForm() {
         form.style.display = 'none';
     });
     document.body.style.overflow = 'auto'; // Restore scrolling
+    
+    // Reset investor fields
+    toggleInvestorFields(false);
 }
 
 function toggleInvestorFields(show) {
     const investorFields = document.getElementById('investorFields');
     const investorAmount = document.getElementById('investorAmount');
-
+    
     if (investorFields && investorAmount) {
-        investorFields.style.display = show ? 'block' : 'none';
-        investorAmount.style.display = show ? 'block' : 'none';
+        if (show) {
+            investorFields.style.display = 'block';
+            investorAmount.style.display = 'block';
+            // Make fields required
+            const investmentTypeRadios = investorFields.querySelectorAll('input[name="investmentType"]');
+            const amountRadios = investorAmount.querySelectorAll('input[name="amount"]');
+            investmentTypeRadios.forEach(radio => radio.setAttribute('required', 'required'));
+            amountRadios.forEach(radio => radio.setAttribute('required', 'required'));
+        } else {
+            investorFields.style.display = 'none';
+            investorAmount.style.display = 'none';
+            // Remove required attribute
+            const investmentTypeRadios = investorFields.querySelectorAll('input[name="investmentType"]');
+            const amountRadios = investorAmount.querySelectorAll('input[name="amount"]');
+            investmentTypeRadios.forEach(radio => {
+                radio.removeAttribute('required');
+                radio.checked = false;
+            });
+            amountRadios.forEach(radio => {
+                radio.removeAttribute('required');
+                radio.checked = false;
+            });
+        }
     }
 }
 
