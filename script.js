@@ -1,8 +1,12 @@
 // WorkHub - JavaScript for interactive features
 
-// Initialize EmailJS
+// Initialize EmailJS with configuration from config.js
 (function() {
-    emailjs.init("Zx7ekz9X_dS5zlD58"); // Replace with your EmailJS public key
+    if (typeof WORKHUB_CONFIG !== 'undefined' && WORKHUB_CONFIG.emailjs) {
+        emailjs.init(WORKHUB_CONFIG.emailjs.publicKey);
+    } else {
+        console.error('Configuration not loaded. Please ensure config.js is loaded before script.js');
+    }
 })();
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -115,8 +119,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Log page load for analytics (placeholder)
-    console.log('WorkHub website loaded successfully! 🚀');
+    // Log page load for analytics (only in debug mode)
+    SecurityUtils.log('WorkHub website loaded successfully! 🚀');
 
     // Add a subtle animation to the scroll indicator
     const scrollIndicator = document.querySelector('.scroll-indicator');
@@ -262,8 +266,17 @@ function toggleUserTypeFields(userType) {
 function submitForm(event) {
     event.preventDefault();
 
+    // Check rate limiting
+    if (!RateLimiter.canSubmit()) {
+        alert('Vous avez atteint la limite de soumissions. Veuillez réessayer dans une heure.');
+        return;
+    }
+
     const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData.entries());
+    const rawData = Object.fromEntries(formData.entries());
+
+    // Sanitize all input data
+    const data = SecurityUtils.sanitizeFormData(rawData);
 
     // Prepare email template parameters with specific fields per user type
     let specificFields = '';
@@ -286,7 +299,7 @@ Horizon: ${data.timeline || 'Non spécifié'}`;
     }
 
     const templateParams = {
-        to_email: 'hugues.ii.w.b.depingon@gmail.com',
+        to_email: WORKHUB_CONFIG.contactEmail,
         from_name: data.userType || 'Utilisateur WorkHub',
         user_type: data.userType || 'Non spécifié',
         interested: data.interested || 'Non spécifié',
@@ -304,15 +317,20 @@ Email: ${data.email}
 Détails: ${data.details || 'Aucun'}`
     };
 
-    // Send email using EmailJS
-    emailjs.send('service_95ikcg4', 'template_p5z847d', templateParams)
+    // Send email using EmailJS with config
+    emailjs.send(
+        WORKHUB_CONFIG.emailjs.serviceId,
+        WORKHUB_CONFIG.emailjs.templates.contact,
+        templateParams
+    )
         .then(function(response) {
-            console.log('Email sent successfully!', response.status, response.text);
+            SecurityUtils.log('Email sent successfully!', response.status);
+            RateLimiter.recordSubmission();
             alert('Merci ! Nous vous contacterons bientôt pour l\'aventure WorkHub !');
             hideForm();
             event.target.reset();
         }, function(error) {
-            console.log('Failed to send email:', error);
+            SecurityUtils.log('Failed to send email:', error);
             alert('Erreur lors de l\'envoi. Veuillez réessayer ou nous contacter directement.');
         });
 }
@@ -320,16 +338,25 @@ Détails: ${data.details || 'Aucun'}`
 function submitInterview(event) {
     event.preventDefault();
 
-    const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData.entries());
+    // Check rate limiting
+    if (!RateLimiter.canSubmit()) {
+        alert('Vous avez atteint la limite de soumissions. Veuillez réessayer dans une heure.');
+        return;
+    }
 
-    // Collect checkbox values
-    const questTypes = formData.getAll('questTypes');
-    const rewards = formData.getAll('rewards');
+    const formData = new FormData(event.target);
+    const rawData = Object.fromEntries(formData.entries());
+
+    // Sanitize all input data
+    const data = SecurityUtils.sanitizeFormData(rawData);
+
+    // Collect checkbox values (sanitize each)
+    const questTypes = formData.getAll('questTypes').map(v => SecurityUtils.sanitizeInput(v));
+    const rewards = formData.getAll('rewards').map(v => SecurityUtils.sanitizeInput(v));
 
     // Prepare email template parameters
     const templateParams = {
-        to_email: 'hugues.ii.w.b.depingon@gmail.com',
+        to_email: WORKHUB_CONFIG.contactEmail,
         from_name: 'Utilisateur Interview WorkHub',
         quest_types: questTypes.join(', ') || 'Aucun sélectionné',
         duration: data.duration || 'Non spécifié',
@@ -347,15 +374,20 @@ Idée: ${data.questIdea || 'Aucune'}
 Email: ${data.email || 'Non fourni'}`
     };
 
-    // Send email using EmailJS
-    emailjs.send('service_95ikcg4', 'template_ejlclnl', templateParams)
+    // Send email using EmailJS with config
+    emailjs.send(
+        WORKHUB_CONFIG.emailjs.serviceId,
+        WORKHUB_CONFIG.emailjs.templates.interview,
+        templateParams
+    )
         .then(function(response) {
-            console.log('Interview email sent successfully!', response.status, response.text);
+            SecurityUtils.log('Interview email sent successfully!', response.status);
+            RateLimiter.recordSubmission();
             alert('Merci pour vos idées ! Elles nous aideront à créer les meilleures quêtes WorkHub !');
             hideForm();
             event.target.reset();
         }, function(error) {
-            console.log('Failed to send interview email:', error);
+            SecurityUtils.log('Failed to send interview email:', error);
             alert('Erreur lors de l\'envoi. Veuillez réessayer ou nous contacter directement.');
         });
 }

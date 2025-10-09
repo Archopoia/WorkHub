@@ -1,0 +1,40 @@
+# WorkHub Robots.txt
+# Last updated: 2025-10-09
+
+User-agent: *
+Allow: /
+
+# Disallow sensitive config files
+Disallow: /config.js
+Disallow: /*.json$
+
+# Allow CSS, JS, and images for better indexing
+Allow: /styles.css
+Allow: /script.js
+Allow: /images/
+
+# Sitemap location
+Sitemap: https://workhub.com/sitemap.xml
+
+# Crawl-delay for politeness
+Crawl-delay: 1
+
+# Specific bots
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Slurp
+Allow: /
+
+# Block bad bots
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+

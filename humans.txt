@@ -1,0 +1,51 @@
+/* TEAM */
+
+Founder & Visionary: Hugues de Pingon
+Role: Lead Game Designer & CEO
+Background: Anthropology, Biology, Neurosciences
+Experience: OnceLost Games (The Elder Scrolls creators)
+From: France
+
+Team Member: Eric
+Role: Product Engineer & Business Analyst
+Specialty: Platform architecture and scalability
+
+Team Member: Luca
+Role: Digital Transformation Expert
+Specialty: Enterprise solutions and connectivity
+
+/* SITE */
+
+Last update: 2025/10/09
+Standards: HTML5, CSS3, JavaScript ES6+
+Components: EmailJS, Google Fonts
+Software: VS Code, Git
+Language: French / Français
+Doctype: HTML5
+IDE: Cursor AI
+
+/* THANKS */
+
+Inspired by: The Elder Scrolls, Skyrim
+Game Design Philosophy: Ted Peterson & Julian Lefay
+Mission: Revolutionizing job search through gamification
+
+/* VALUES */
+
+Innovation: Transforming recruitment with serious games
+Merit-based: Prove skills through actions, not just words
+Engagement: Making job search an adventure
+Fair recruitment: Connecting real talents with real opportunities
+
+/* CONTACT */
+
+Website: https://workhub.com
+Email: See contact form on website
+Location: France
+
+/* WORKHUB */
+
+Tagline: Chercher un emploi devient une aventure
+Vision: Transform job search into an engaging adventure
+Mission: Create a merit-based economy where game progress equals real-world opportunities
+
