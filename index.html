@@ -524,10 +524,60 @@
                                 <label>Type de poste recherché :</label>
                                 <select name="candidatJobType" class="form-dropdown">
                                     <option value="">Sélectionnez un type de poste</option>
-                                    <option value="cdi">CDI</option>
-                                    <option value="cdd">CDD</option>
-                                    <option value="freelance">Freelance</option>
-                                    <option value="stage">Stage</option>
+                                    <optgroup label="📋 Contrats Salariés">
+                                        <option value="cdi">CDI - Contrat à Durée Indéterminée</option>
+                                        <option value="cdd">CDD - Contrat à Durée Déterminée</option>
+                                        <option value="ctt">CTT - Contrat de Travail Temporaire</option>
+                                        <option value="interim">Intérim - Mission temporaire</option>
+                                        <option value="apprentissage">Apprentissage - Formation en alternance</option>
+                                        <option value="contrat-pro">Contrat de Professionnalisation</option>
+                                    </optgroup>
+                                    <optgroup label="🎓 Formation & Début de Carrière">
+                                        <option value="stage">Stage - Découverte professionnelle</option>
+                                        <option value="stage-obligatoire">Stage Obligatoire - Cursus scolaire</option>
+                                        <option value="stage-volontaire">Stage Volontaire - Enrichissement</option>
+                                        <option value="alternance">Alternance - Formation en entreprise</option>
+                                        <option value="vae">VAE - Validation des Acquis de l'Expérience</option>
+                                        <option value="formation-continue">Formation Continue - Perfectionnement</option>
+                                    </optgroup>
+                                    <optgroup label="💼 Travail Indépendant">
+                                        <option value="freelance">Freelance - Travail indépendant</option>
+                                        <option value="auto-entrepreneur">Auto-entrepreneur - Micro-entreprise</option>
+                                        <option value="portage-salarial">Portage Salarial - Statut hybride</option>
+                                        <option value="consultant">Consultant - Expertise métier</option>
+                                        <option value="prestataire">Prestataire de Services</option>
+                                    </optgroup>
+                                    <optgroup label="🏢 Fonction Publique">
+                                        <option value="fonction-publique">Fonction Publique - Administration</option>
+                                        <option value="concours">Concours - Recrutement public</option>
+                                        <option value="contractuel">Contractuel Public - CDD public</option>
+                                        <option value="detachement">Détachement - Mobilité publique</option>
+                                    </optgroup>
+                                    <optgroup label="🌍 International & Spécialisé">
+                                        <option value="expatriation">Expatriation - Mission à l'étranger</option>
+                                        <option value="detachement-international">Détachement International</option>
+                                        <option value="mission-humanitaire">Mission Humanitaire - ONG</option>
+                                        <option value="cooperation">Coopération Internationale</option>
+                                    </optgroup>
+                                    <optgroup label="🚀 Entrepreneuriat">
+                                        <option value="startup">Startup - Jeune entreprise innovante</option>
+                                        <option value="creation-entreprise">Création d'Entreprise</option>
+                                        <option value="rachat-entreprise">Rachat d'Entreprise</option>
+                                        <option value="franchise">Franchise - Réseau commercial</option>
+                                    </optgroup>
+                                    <optgroup label="🎯 Secteurs Spécialisés">
+                                        <option value="interim-specialise">Intérim Spécialisé - Métiers techniques</option>
+                                        <option value="mission-interim">Mission d'Intérim - Court terme</option>
+                                        <option value="consulting">Consulting - Conseil stratégique</option>
+                                        <option value="audit">Audit - Contrôle et vérification</option>
+                                    </optgroup>
+                                    <optgroup label="📅 Temps Partiel & Flexible">
+                                        <option value="temps-partiel">Temps Partiel - Horaires réduits</option>
+                                        <option value="temps-plein">Temps Plein - 35h/semaine</option>
+                                        <option value="travail-weekend">Travail Weekend - Samedi/Dimanche</option>
+                                        <option value="travail-nuit">Travail de Nuit - Horaires décalés</option>
+                                        <option value="travail-distance">Télétravail - Travail à distance</option>
+                                    </optgroup>
                                 </select>
                             </div>
 
