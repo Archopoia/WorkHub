@@ -334,18 +334,18 @@ Horizon: ${data.timeline || 'Non spécifié'}`;
         user_type: userType || 'Non spécifié',
         sector: data.sector || 'Non spécifié',
         experience: data.experience || 'Non spécifié',
-        investment_type: data.investmentType || 'Non spécifié',
-        amount: data.amount || 'Non spécifié',
+        investment_type: data.investmentType || '',
+        amount: data.amount || '',
         interested: data.interested || 'Non spécifié',
         email: data.email || 'Non fourni',
         details: data.details || 'Aucun détail fourni',
         // Additional fields for comprehensive template
-        candidat_job_type: data.candidatJobType || 'Non spécifié',
-        availability: data.availability || 'Non spécifié',
-        company_size: data.companySize || 'Non spécifié',
-        hiring_needs: data.hiringNeeds || 'Non spécifié',
-        urgency: data.urgency || 'Non spécifié',
-        timeline: data.timeline || 'Non spécifié',
+        candidat_job_type: data.candidatJobType || '',
+        availability: data.availability || '',
+        company_size: data.companySize || '',
+        hiring_needs: data.hiringNeeds || '',
+        urgency: data.urgency || '',
+        timeline: data.timeline || '',
         message: `Nouveau lead WorkHub !
 
 Type: ${userType}
