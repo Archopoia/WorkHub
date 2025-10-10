@@ -421,9 +421,18 @@ function unlockContactBadge() {
 
 // Fonction de reset pour développement/test
 function resetGameProgress() {
-    localStorage.removeItem('workhub_progress');
-    localStorage.removeItem('workhub_master_explorer');
-    location.reload();
+    // Scroll to top of page first
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+    
+    // Wait for scroll animation to complete, then reset
+    setTimeout(() => {
+        localStorage.removeItem('workhub_progress');
+        localStorage.removeItem('workhub_master_explorer');
+        location.reload();
+    }, 800); // 800ms delay to allow smooth scroll to complete
 }
 
 // Initialiser le système de gamification au chargement de la page
