@@ -522,7 +522,7 @@
                             <!-- Champs spécifiques aux CANDIDATS -->
                             <div id="candidatFields" class="form-group" style="display: none;">
                                 <label>Type de poste recherché :</label>
-                                <select name="candidatJobType" class="form-dropdown">
+                                <select name="candidatJobType" class="form-dropdown" multiple>
                                     <option value="">Sélectionnez un type de poste</option>
                                     <optgroup label="📋 Contrats Salariés">
                                         <option value="cdi">CDI - Contrat à Durée Indéterminée</option>
@@ -579,19 +579,32 @@
                                         <option value="travail-distance">Télétravail - Travail à distance</option>
                                     </optgroup>
                                 </select>
+                                <small class="form-help">Maintenez Ctrl (Cmd sur Mac) pour sélectionner plusieurs options</small>
                             </div>
 
                             <div id="candidatSector" class="form-group" style="display: none;">
                                 <label>Secteur d'activité :</label>
-                                <select name="sector" class="form-dropdown">
-                                    <option value="">Sélectionnez un secteur</option>
-                                    <option value="tech">Tech</option>
-                                    <option value="finance">Finance</option>
-                                    <option value="marketing">Marketing</option>
-                                    <option value="sante">Santé</option>
-                                    <option value="education">Éducation</option>
+                                <select name="sector" class="form-dropdown" multiple>
+                                    <option value="tech">Tech & Digital</option>
+                                    <option value="finance">Finance & Banque</option>
+                                    <option value="marketing">Marketing & Communication</option>
+                                    <option value="sante">Santé & Médical</option>
+                                    <option value="education">Éducation & Formation</option>
+                                    <option value="commerce">Commerce & Vente</option>
+                                    <option value="industrie">Industrie & Production</option>
+                                    <option value="logistique">Logistique & Transport</option>
+                                    <option value="immobilier">Immobilier & Construction</option>
+                                    <option value="tourisme">Tourisme & Hôtellerie</option>
+                                    <option value="agriculture">Agriculture & Environnement</option>
+                                    <option value="juridique">Juridique & Droit</option>
+                                    <option value="consulting">Consulting & Conseil</option>
+                                    <option value="assurance">Assurance & Gestion</option>
+                                    <option value="media">Médias & Divertissement</option>
+                                    <option value="sport">Sport & Fitness</option>
+                                    <option value="art">Art & Culture</option>
                                     <option value="autre">Autre</option>
                                 </select>
+                                <small class="form-help">Maintenez Ctrl (Cmd sur Mac) pour sélectionner plusieurs options</small>
                             </div>
 
                             <div id="candidatExperience" class="form-group" style="display: none;">
@@ -607,13 +620,19 @@
 
                             <div id="candidatAvailability" class="form-group" style="display: none;">
                                 <label>Disponibilité :</label>
-                                <select name="availability" class="form-dropdown">
-                                    <option value="">Sélectionnez votre disponibilité</option>
+                                <select name="availability" class="form-dropdown" multiple>
                                     <option value="immediate">Immédiate</option>
                                     <option value="1mois">Dans 1 mois</option>
+                                    <option value="2mois">Dans 2 mois</option>
                                     <option value="3mois">Dans 3 mois</option>
+                                    <option value="6mois">Dans 6 mois</option>
+                                    <option value="1an">Dans 1 an</option>
                                     <option value="flexible">Flexible</option>
+                                    <option value="weekend">Disponible weekend</option>
+                                    <option value="soir">Disponible en soirée</option>
+                                    <option value="nuit">Disponible de nuit</option>
                                 </select>
+                                <small class="form-help">Maintenez Ctrl (Cmd sur Mac) pour sélectionner plusieurs options</small>
                             </div>
 
                             <!-- Champs spécifiques aux ENTREPRISES -->
@@ -630,15 +649,27 @@
 
                             <div id="companySector" class="form-group" style="display: none;">
                                 <label>Secteur d'activité :</label>
-                                <select name="sector" class="form-dropdown">
-                                    <option value="">Sélectionnez un secteur</option>
-                                    <option value="tech">Tech</option>
-                                    <option value="finance">Finance</option>
-                                    <option value="marketing">Marketing</option>
-                                    <option value="sante">Santé</option>
-                                    <option value="education">Éducation</option>
+                                <select name="sector" class="form-dropdown" multiple>
+                                    <option value="tech">Tech & Digital</option>
+                                    <option value="finance">Finance & Banque</option>
+                                    <option value="marketing">Marketing & Communication</option>
+                                    <option value="sante">Santé & Médical</option>
+                                    <option value="education">Éducation & Formation</option>
+                                    <option value="commerce">Commerce & Vente</option>
+                                    <option value="industrie">Industrie & Production</option>
+                                    <option value="logistique">Logistique & Transport</option>
+                                    <option value="immobilier">Immobilier & Construction</option>
+                                    <option value="tourisme">Tourisme & Hôtellerie</option>
+                                    <option value="agriculture">Agriculture & Environnement</option>
+                                    <option value="juridique">Juridique & Droit</option>
+                                    <option value="consulting">Consulting & Conseil</option>
+                                    <option value="assurance">Assurance & Gestion</option>
+                                    <option value="media">Médias & Divertissement</option>
+                                    <option value="sport">Sport & Fitness</option>
+                                    <option value="art">Art & Culture</option>
                                     <option value="autre">Autre</option>
                                 </select>
+                                <small class="form-help">Maintenez Ctrl (Cmd sur Mac) pour sélectionner plusieurs options</small>
                             </div>
 
                             <div id="companyNeeds" class="form-group" style="display: none;">
@@ -688,26 +719,44 @@
 
                             <div id="investorSector" class="form-group" style="display: none;">
                                 <label>Secteur d'intérêt :</label>
-                                <select name="sector" class="form-dropdown">
-                                    <option value="">Sélectionnez un secteur</option>
-                                    <option value="tech">Tech</option>
-                                    <option value="finance">Finance</option>
-                                    <option value="marketing">Marketing</option>
-                                    <option value="sante">Santé</option>
-                                    <option value="education">Éducation</option>
+                                <select name="sector" class="form-dropdown" multiple>
+                                    <option value="tech">Tech & Digital</option>
+                                    <option value="finance">Finance & Banque</option>
+                                    <option value="marketing">Marketing & Communication</option>
+                                    <option value="sante">Santé & Médical</option>
+                                    <option value="education">Éducation & Formation</option>
+                                    <option value="commerce">Commerce & Vente</option>
+                                    <option value="industrie">Industrie & Production</option>
+                                    <option value="logistique">Logistique & Transport</option>
+                                    <option value="immobilier">Immobilier & Construction</option>
+                                    <option value="tourisme">Tourisme & Hôtellerie</option>
+                                    <option value="agriculture">Agriculture & Environnement</option>
+                                    <option value="juridique">Juridique & Droit</option>
+                                    <option value="consulting">Consulting & Conseil</option>
+                                    <option value="assurance">Assurance & Gestion</option>
+                                    <option value="media">Médias & Divertissement</option>
+                                    <option value="sport">Sport & Fitness</option>
+                                    <option value="art">Art & Culture</option>
                                     <option value="autre">Autre</option>
                                 </select>
+                                <small class="form-help">Maintenez Ctrl (Cmd sur Mac) pour sélectionner plusieurs options</small>
                             </div>
 
                             <div id="investorTimeline" class="form-group" style="display: none;">
                                 <label>Horizon d'investissement :</label>
-                                <select name="timeline" class="form-dropdown">
-                                    <option value="">Sélectionnez l'horizon</option>
-                                    <option value="immediate">Immédiat</option>
+                                <select name="timeline" class="form-dropdown" multiple>
+                                    <option value="immediate">Immédiat (< 3 mois)</option>
                                     <option value="3mois">3 mois</option>
                                     <option value="6mois">6 mois</option>
+                                    <option value="1an">1 an</option>
+                                    <option value="2ans">2 ans</option>
+                                    <option value="3ans">3 ans</option>
+                                    <option value="5ans">5 ans</option>
+                                    <option value="long-terme">Long terme (5+ ans)</option>
+                                    <option value="flexible">Flexible</option>
                                     <option value="exploration">En exploration</option>
                                 </select>
+                                <small class="form-help">Maintenez Ctrl (Cmd sur Mac) pour sélectionner plusieurs options</small>
                             </div>
 
                             <!-- Champ commun : Intéressé -->

@@ -1,9 +1,7 @@
 # WorkHub - Git Ignore File
 
 # Sensitive configuration files
-# WARNING: Never commit config.js to a public repository
 # It contains API keys and email addresses
-config.js
 
 # Backup files
 *.bak

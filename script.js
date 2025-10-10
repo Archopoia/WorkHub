@@ -305,24 +305,30 @@ function submitForm(event) {
     // Check if user type is selected, if not, allow general submission
     const userType = data.userType || 'general';
 
+    // Handle multiple selections for dropdowns
+    const candidatJobTypes = formData.getAll('candidatJobType').join(', ') || '';
+    const sectors = formData.getAll('sector').join(', ') || '';
+    const availabilities = formData.getAll('availability').join(', ') || '';
+    const timelines = formData.getAll('timeline').join(', ') || '';
+
     // Prepare email template parameters with specific fields per user type
     let specificFields = '';
 
     if (userType === 'candidat') {
-        specificFields = `Type de poste: ${data.candidatJobType || 'Non spécifié'}
-Secteur: ${data.sector || 'Non spécifié'}
+        specificFields = `Type de poste: ${candidatJobTypes || 'Non spécifié'}
+Secteur: ${sectors || 'Non spécifié'}
 Expérience: ${data.experience || 'Non spécifié'}
-Disponibilité: ${data.availability || 'Non spécifié'}`;
+Disponibilité: ${availabilities || 'Non spécifié'}`;
     } else if (userType === 'entreprise') {
         specificFields = `Taille entreprise: ${data.companySize || 'Non spécifié'}
-Secteur: ${data.sector || 'Non spécifié'}
+Secteur: ${sectors || 'Non spécifié'}
 Besoins de recrutement: ${data.hiringNeeds || 'Non spécifié'}
 Urgence: ${data.urgency || 'Non spécifié'}`;
     } else if (userType === 'investisseur') {
         specificFields = `Type d'investissement: ${data.investmentType || 'Non spécifié'}
 Montant: ${data.amount || 'Non spécifié'}
-Secteur d'intérêt: ${data.sector || 'Non spécifié'}
-Horizon: ${data.timeline || 'Non spécifié'}`;
+Secteur d'intérêt: ${sectors || 'Non spécifié'}
+Horizon: ${timelines || 'Non spécifié'}`;
     } else {
         // General submission - no specific fields
         specificFields = 'Type d\'utilisateur: Non spécifié';
@@ -332,7 +338,7 @@ Horizon: ${data.timeline || 'Non spécifié'}`;
         to_email: WORKHUB_CONFIG.contactEmail,
         from_name: userType || 'Utilisateur WorkHub',
         user_type: userType || 'Non spécifié',
-        sector: data.sector || 'Non spécifié',
+        sector: sectors || 'Non spécifié',
         experience: data.experience || 'Non spécifié',
         investment_type: data.investmentType || '',
         amount: data.amount || '',
@@ -340,12 +346,12 @@ Horizon: ${data.timeline || 'Non spécifié'}`;
         email: data.email || 'Non fourni',
         details: data.details || 'Aucun détail fourni',
         // Additional fields for comprehensive template
-        candidat_job_type: data.candidatJobType || '',
-        availability: data.availability || '',
+        candidat_job_type: candidatJobTypes || '',
+        availability: availabilities || '',
         company_size: data.companySize || '',
         hiring_needs: data.hiringNeeds || '',
         urgency: data.urgency || '',
-        timeline: data.timeline || '',
+        timeline: timelines || '',
         message: `Nouveau lead WorkHub !
 
 Type: ${userType}
