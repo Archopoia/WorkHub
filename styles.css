@@ -2184,3 +2184,194 @@ h3 {
     box-shadow: 0 15px 50px var(--color-gold-shadow);
     transform: scale(1.02);
 }
+
+/* ============================================
+   USER TYPE BUTTONS
+   ============================================ */
+
+.user-type-buttons {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-sm);
+    justify-content: space-between;
+}
+
+.user-type-btn {
+    background: var(--color-background-light);
+    border: 2px solid var(--color-accent-gold);
+    border-radius: 6px;
+    padding: var(--spacing-sm) var(--spacing-md);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    min-height: 50px;
+    position: relative;
+    overflow: hidden;
+}
+
+.user-type-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+    transition: left 0.6s ease;
+}
+
+.user-type-btn:hover::before {
+    left: 100%;
+}
+
+.user-type-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px var(--color-gold-shadow);
+    border-color: var(--color-accent-red);
+}
+
+.user-type-btn.active {
+    background: linear-gradient(135deg, var(--color-accent-gold), var(--color-accent-gold-dark));
+    color: var(--color-background);
+    border-color: var(--color-accent-red);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--color-gold-shadow);
+}
+
+.user-type-btn.active::before {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+}
+
+.btn-text {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-accent-gold);
+    transition: color var(--transition-normal);
+}
+
+.user-type-btn.active .btn-text {
+    color: var(--color-background);
+}
+
+/* ============================================
+   FORM DROPDOWNS
+   ============================================ */
+
+.form-dropdown {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 2px solid var(--color-accent-gold);
+    border-radius: 6px;
+    background: var(--color-background-light);
+    color: var(--color-text);
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all var(--transition-normal);
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23d4af37' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 12px center;
+    background-repeat: no-repeat;
+    background-size: 16px;
+    padding-right: 40px;
+}
+
+.form-dropdown:focus {
+    outline: none;
+    border-color: var(--color-accent-red);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+}
+
+.form-dropdown:hover {
+    border-color: var(--color-accent-red);
+}
+
+.form-dropdown option {
+    background: var(--color-background-light);
+    color: var(--color-text);
+    padding: var(--spacing-sm);
+}
+
+.form-dropdown[multiple] {
+    background-image: none;
+    padding-right: var(--spacing-md);
+    min-height: 120px;
+}
+
+.form-dropdown[multiple] option {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    margin: 2px 0;
+    border-radius: 4px;
+}
+
+.form-dropdown[multiple] option:checked {
+    background: var(--color-accent-gold);
+    color: var(--color-background);
+}
+
+.form-help {
+    display: block;
+    margin-top: var(--spacing-xs);
+    font-size: 0.85rem;
+    color: var(--color-text-light);
+    font-style: italic;
+}
+
+
+/* ============================================
+   OPTGROUP STYLING
+   ============================================ */
+
+.form-dropdown optgroup {
+    font-weight: 600;
+    color: var(--color-accent-gold);
+    background: rgba(212, 175, 55, 0.1);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    margin: var(--spacing-xs) 0;
+    border-top: 1px solid var(--color-accent-gold);
+}
+
+.form-dropdown optgroup option {
+    font-weight: normal;
+    color: var(--color-text);
+    background: var(--color-background-light);
+    padding-left: var(--spacing-md);
+}
+
+/* ============================================
+   RESPONSIVE UPDATES FOR NEW COMPONENTS
+   ============================================ */
+
+@media (max-width: 768px) {
+    .user-type-buttons {
+        gap: var(--spacing-xs);
+    }
+
+    .user-type-btn {
+        min-height: 45px;
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+
+    .btn-text {
+        font-size: 0.8rem;
+    }
+
+    .form-dropdown {
+        font-size: 0.9rem;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        padding-right: 35px;
+    }
+}
+
+@media (max-width: 480px) {
+    .user-type-btn {
+        min-height: 40px;
+        padding: var(--spacing-xs);
+    }
+
+    .btn-text {
+        font-size: 0.75rem;
+    }
+}

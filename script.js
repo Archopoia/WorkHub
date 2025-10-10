@@ -9,6 +9,29 @@
     }
 })();
 
+// Initialize user type button functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const userTypeButtons = document.querySelectorAll('.user-type-btn');
+    const userTypeInput = document.getElementById('userTypeInput');
+
+    userTypeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Remove active class from all buttons
+            userTypeButtons.forEach(btn => btn.classList.remove('active'));
+
+            // Add active class to clicked button
+            this.classList.add('active');
+
+            // Set the hidden input value
+            const userType = this.getAttribute('data-value');
+            userTypeInput.value = userType;
+
+            // Show relevant fields
+            toggleUserTypeFields(userType);
+        });
+    });
+});
+
 document.addEventListener('DOMContentLoaded', function() {
 
     // Smooth scrolling for navigation links
@@ -221,10 +244,11 @@ function toggleUserTypeFields(userType) {
         const group = document.getElementById(groupId);
         if (group) {
             group.style.display = 'none';
-            // Remove required and clear selections
-            group.querySelectorAll('input[type="radio"]').forEach(radio => {
-                radio.removeAttribute('required');
-                radio.checked = false;
+            // Remove required and clear selections for dropdowns
+            const dropdowns = group.querySelectorAll('select');
+            dropdowns.forEach(dropdown => {
+                dropdown.removeAttribute('required');
+                dropdown.selectedIndex = 0; // Reset to first option
             });
         }
     });
@@ -236,8 +260,8 @@ function toggleUserTypeFields(userType) {
             const group = document.getElementById(groupId);
             if (group) {
                 group.style.display = 'block';
-                const radios = group.querySelectorAll('input[type="radio"]');
-                radios.forEach(radio => radio.setAttribute('required', 'required'));
+                const dropdowns = group.querySelectorAll('select');
+                dropdowns.forEach(dropdown => dropdown.setAttribute('required', 'required'));
             }
         });
     } else if (userType === 'entreprise') {
@@ -246,8 +270,8 @@ function toggleUserTypeFields(userType) {
             const group = document.getElementById(groupId);
             if (group) {
                 group.style.display = 'block';
-                const radios = group.querySelectorAll('input[type="radio"]');
-                radios.forEach(radio => radio.setAttribute('required', 'required'));
+                const dropdowns = group.querySelectorAll('select');
+                dropdowns.forEach(dropdown => dropdown.setAttribute('required', 'required'));
             }
         });
     } else if (userType === 'investisseur') {
@@ -256,8 +280,8 @@ function toggleUserTypeFields(userType) {
             const group = document.getElementById(groupId);
             if (group) {
                 group.style.display = 'block';
-                const radios = group.querySelectorAll('input[type="radio"]');
-                radios.forEach(radio => radio.setAttribute('required', 'required'));
+                const dropdowns = group.querySelectorAll('select');
+                dropdowns.forEach(dropdown => dropdown.setAttribute('required', 'required'));
             }
         });
     }
@@ -278,36 +302,53 @@ function submitForm(event) {
     // Sanitize all input data
     const data = SecurityUtils.sanitizeFormData(rawData);
 
+    // Check if user type is selected, if not, allow general submission
+    const userType = data.userType || 'general';
+
     // Prepare email template parameters with specific fields per user type
     let specificFields = '';
 
-    if (data.userType === 'candidat') {
+    if (userType === 'candidat') {
         specificFields = `Type de poste: ${data.candidatJobType || 'Non spécifié'}
 Secteur: ${data.sector || 'Non spécifié'}
 Expérience: ${data.experience || 'Non spécifié'}
 Disponibilité: ${data.availability || 'Non spécifié'}`;
-    } else if (data.userType === 'entreprise') {
+    } else if (userType === 'entreprise') {
         specificFields = `Taille entreprise: ${data.companySize || 'Non spécifié'}
 Secteur: ${data.sector || 'Non spécifié'}
 Besoins de recrutement: ${data.hiringNeeds || 'Non spécifié'}
 Urgence: ${data.urgency || 'Non spécifié'}`;
-    } else if (data.userType === 'investisseur') {
+    } else if (userType === 'investisseur') {
         specificFields = `Type d'investissement: ${data.investmentType || 'Non spécifié'}
 Montant: ${data.amount || 'Non spécifié'}
 Secteur d'intérêt: ${data.sector || 'Non spécifié'}
 Horizon: ${data.timeline || 'Non spécifié'}`;
+    } else {
+        // General submission - no specific fields
+        specificFields = 'Type d\'utilisateur: Non spécifié';
     }
 
     const templateParams = {
         to_email: WORKHUB_CONFIG.contactEmail,
-        from_name: data.userType || 'Utilisateur WorkHub',
-        user_type: data.userType || 'Non spécifié',
+        from_name: userType || 'Utilisateur WorkHub',
+        user_type: userType || 'Non spécifié',
+        sector: data.sector || 'Non spécifié',
+        experience: data.experience || 'Non spécifié',
+        investment_type: data.investmentType || '',
+        amount: data.amount || '',
         interested: data.interested || 'Non spécifié',
         email: data.email || 'Non fourni',
         details: data.details || 'Aucun détail fourni',
+        // Additional fields for comprehensive template
+        candidat_job_type: data.candidatJobType || '',
+        availability: data.availability || '',
+        company_size: data.companySize || '',
+        hiring_needs: data.hiringNeeds || '',
+        urgency: data.urgency || '',
+        timeline: data.timeline || '',
         message: `Nouveau lead WorkHub !
 
-Type: ${data.userType}
+Type: ${userType}
 
 ${specificFields}
 
@@ -356,9 +397,12 @@ function submitInterview(event) {
     // Sanitize all input data
     const data = SecurityUtils.sanitizeFormData(rawData);
 
-    // Collect checkbox values (sanitize each)
-    const questTypes = formData.getAll('questTypes').map(v => SecurityUtils.sanitizeInput(v));
-    const rewards = formData.getAll('rewards').map(v => SecurityUtils.sanitizeInput(v));
+    // Collect multiple select values (sanitize each)
+    const questTypesSelect = document.querySelector('select[name="questTypes"]');
+    const rewardsSelect = document.querySelector('select[name="rewards"]');
+
+    const questTypes = Array.from(questTypesSelect.selectedOptions).map(option => SecurityUtils.sanitizeInput(option.value));
+    const rewards = Array.from(rewardsSelect.selectedOptions).map(option => SecurityUtils.sanitizeInput(option.value));
 
     // Prepare email template parameters
     const templateParams = {
@@ -370,6 +414,7 @@ function submitInterview(event) {
         rewards: rewards.join(', ') || 'Aucun sélectionné',
         quest_idea: data.questIdea || 'Aucune idée fournie',
         email: data.email || 'Non fourni',
+        newsletter_subscribed: data.newsletter === 'yes' ? 'Oui' : 'Non',
         message: `Nouvelle idée de quête WorkHub !
 
 Types de quêtes: ${questTypes.join(', ')}
@@ -377,7 +422,8 @@ Durée: ${data.duration}
 Difficulté: ${data.difficulty}
 Récompenses: ${rewards.join(', ')}
 Idée: ${data.questIdea || 'Aucune'}
-Email: ${data.email || 'Non fourni'}`
+Email: ${data.email || 'Non fourni'}
+Newsletter: ${data.newsletter === 'yes' ? 'Oui' : 'Non'}`
     };
 
     // Send email using EmailJS with config

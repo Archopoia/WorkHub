@@ -470,7 +470,7 @@
             </div>
 
             <div class="content-text center-text" style="margin-top: 2rem;">
-                <p>Nous prouverons qu'un recrutement plus juste et motivant est possible.</p>
+                <p>Nous prouverons qu'un recrutement plus juste, motivant et efficace est possible.</p>
             </div>
         </div>
     </section>
@@ -505,150 +505,170 @@
                         <form id="workhubForm" onsubmit="submitForm(event)">
                             <div class="form-group">
                                 <label>Vous êtes :</label>
-                                <div class="radio-group">
-                                    <label><input type="radio" name="userType" value="candidat" required> Candidat à la recherche d'emploi</label>
-                                    <label><input type="radio" name="userType" value="entreprise" required> Entreprise/Recruteur</label>
-                                    <label><input type="radio" name="userType" value="investisseur" required> Investisseur</label>
+                                <div class="user-type-buttons">
+                                    <button type="button" class="user-type-btn" data-value="candidat">
+                                        <span class="btn-text">Candidat</span>
+                                    </button>
+                                    <button type="button" class="user-type-btn" data-value="entreprise">
+                                        <span class="btn-text">Recruteur</span>
+                                    </button>
+                                    <button type="button" class="user-type-btn" data-value="investisseur">
+                                        <span class="btn-text">Investisseur</span>
+                                    </button>
                                 </div>
+                                <input type="hidden" name="userType" id="userTypeInput" required>
                             </div>
 
                             <!-- Champs spécifiques aux CANDIDATS -->
                             <div id="candidatFields" class="form-group" style="display: none;">
                                 <label>Type de poste recherché :</label>
-                                <div class="radio-group">
-                                    <label><input type="radio" name="candidatJobType" value="cdi"> CDI</label>
-                                    <label><input type="radio" name="candidatJobType" value="cdd"> CDD</label>
-                                    <label><input type="radio" name="candidatJobType" value="freelance"> Freelance</label>
-                                    <label><input type="radio" name="candidatJobType" value="stage"> Stage</label>
-                                </div>
+                                <select name="candidatJobType" class="form-dropdown">
+                                    <option value="">Sélectionnez un type de poste</option>
+                                    <option value="cdi">CDI</option>
+                                    <option value="cdd">CDD</option>
+                                    <option value="freelance">Freelance</option>
+                                    <option value="stage">Stage</option>
+                                </select>
                             </div>
 
                             <div id="candidatSector" class="form-group" style="display: none;">
                                 <label>Secteur d'activité :</label>
-                                <div class="radio-group">
-                                    <label><input type="radio" name="sector" value="tech"> Tech</label>
-                                    <label><input type="radio" name="sector" value="finance"> Finance</label>
-                                    <label><input type="radio" name="sector" value="marketing"> Marketing</label>
-                                    <label><input type="radio" name="sector" value="sante"> Santé</label>
-                                    <label><input type="radio" name="sector" value="education"> Éducation</label>
-                                    <label><input type="radio" name="sector" value="autre"> Autre</label>
-                                </div>
+                                <select name="sector" class="form-dropdown">
+                                    <option value="">Sélectionnez un secteur</option>
+                                    <option value="tech">Tech</option>
+                                    <option value="finance">Finance</option>
+                                    <option value="marketing">Marketing</option>
+                                    <option value="sante">Santé</option>
+                                    <option value="education">Éducation</option>
+                                    <option value="autre">Autre</option>
+                                </select>
                             </div>
 
                             <div id="candidatExperience" class="form-group" style="display: none;">
                                 <label>Niveau d'expérience :</label>
-                                <div class="radio-group">
-                                    <label><input type="radio" name="experience" value="debutant"> Débutant (0-2 ans)</label>
-                                    <label><input type="radio" name="experience" value="intermediaire"> Intermédiaire (2-5 ans)</label>
-                                    <label><input type="radio" name="experience" value="senior"> Senior (5-10 ans)</label>
-                                    <label><input type="radio" name="experience" value="expert"> Expert (10+ ans)</label>
-                                </div>
+                                <select name="experience" class="form-dropdown">
+                                    <option value="">Sélectionnez votre niveau</option>
+                                    <option value="debutant">Débutant (0-2 ans)</option>
+                                    <option value="intermediaire">Intermédiaire (2-5 ans)</option>
+                                    <option value="senior">Senior (5-10 ans)</option>
+                                    <option value="expert">Expert (10+ ans)</option>
+                                </select>
                             </div>
 
                             <div id="candidatAvailability" class="form-group" style="display: none;">
                                 <label>Disponibilité :</label>
-                                <div class="radio-group">
-                                    <label><input type="radio" name="availability" value="immediate"> Immédiate</label>
-                                    <label><input type="radio" name="availability" value="1mois"> Dans 1 mois</label>
-                                    <label><input type="radio" name="availability" value="3mois"> Dans 3 mois</label>
-                                    <label><input type="radio" name="availability" value="flexible"> Flexible</label>
-                                </div>
+                                <select name="availability" class="form-dropdown">
+                                    <option value="">Sélectionnez votre disponibilité</option>
+                                    <option value="immediate">Immédiate</option>
+                                    <option value="1mois">Dans 1 mois</option>
+                                    <option value="3mois">Dans 3 mois</option>
+                                    <option value="flexible">Flexible</option>
+                                </select>
                             </div>
 
                             <!-- Champs spécifiques aux ENTREPRISES -->
                             <div id="companyFields" class="form-group" style="display: none;">
                                 <label>Taille de l'entreprise :</label>
-                                <div class="radio-group">
-                                    <label><input type="radio" name="companySize" value="1-10"> 1-10 employés</label>
-                                    <label><input type="radio" name="companySize" value="11-50"> 11-50 employés</label>
-                                    <label><input type="radio" name="companySize" value="51-200"> 51-200 employés</label>
-                                    <label><input type="radio" name="companySize" value="200+"> 200+ employés</label>
-                                </div>
+                                <select name="companySize" class="form-dropdown">
+                                    <option value="">Sélectionnez la taille</option>
+                                    <option value="1-10">1-10 employés</option>
+                                    <option value="11-50">11-50 employés</option>
+                                    <option value="51-200">51-200 employés</option>
+                                    <option value="200+">200+ employés</option>
+                                </select>
                             </div>
 
                             <div id="companySector" class="form-group" style="display: none;">
                                 <label>Secteur d'activité :</label>
-                                <div class="radio-group">
-                                    <label><input type="radio" name="sector" value="tech"> Tech</label>
-                                    <label><input type="radio" name="sector" value="finance"> Finance</label>
-                                    <label><input type="radio" name="sector" value="marketing"> Marketing</label>
-                                    <label><input type="radio" name="sector" value="sante"> Santé</label>
-                                    <label><input type="radio" name="sector" value="education"> Éducation</label>
-                                    <label><input type="radio" name="sector" value="autre"> Autre</label>
-                                </div>
+                                <select name="sector" class="form-dropdown">
+                                    <option value="">Sélectionnez un secteur</option>
+                                    <option value="tech">Tech</option>
+                                    <option value="finance">Finance</option>
+                                    <option value="marketing">Marketing</option>
+                                    <option value="sante">Santé</option>
+                                    <option value="education">Éducation</option>
+                                    <option value="autre">Autre</option>
+                                </select>
                             </div>
 
                             <div id="companyNeeds" class="form-group" style="display: none;">
                                 <label>Besoins de recrutement :</label>
-                                <div class="radio-group">
-                                    <label><input type="radio" name="hiringNeeds" value="1-5"> 1-5 postes/an</label>
-                                    <label><input type="radio" name="hiringNeeds" value="6-20"> 6-20 postes/an</label>
-                                    <label><input type="radio" name="hiringNeeds" value="20+"> 20+ postes/an</label>
-                                    <label><input type="radio" name="hiringNeeds" value="ponctuel"> Besoins ponctuels</label>
-                                </div>
+                                <select name="hiringNeeds" class="form-dropdown">
+                                    <option value="">Sélectionnez vos besoins</option>
+                                    <option value="1-5">1-5 postes/an</option>
+                                    <option value="6-20">6-20 postes/an</option>
+                                    <option value="20+">20+ postes/an</option>
+                                    <option value="ponctuel">Besoins ponctuels</option>
+                                </select>
                             </div>
 
                             <div id="companyUrgency" class="form-group" style="display: none;">
                                 <label>Urgence du recrutement :</label>
-                                <div class="radio-group">
-                                    <label><input type="radio" name="urgency" value="immediate"> Immédiate (< 1 mois)</label>
-                                    <label><input type="radio" name="urgency" value="court-terme"> Court terme (1-3 mois)</label>
-                                    <label><input type="radio" name="urgency" value="moyen-terme"> Moyen terme (3-6 mois)</label>
-                                    <label><input type="radio" name="urgency" value="exploration"> En exploration</label>
-                                </div>
+                                <select name="urgency" class="form-dropdown">
+                                    <option value="">Sélectionnez l'urgence</option>
+                                    <option value="immediate">Immédiate (< 1 mois)</option>
+                                    <option value="court-terme">Court terme (1-3 mois)</option>
+                                    <option value="moyen-terme">Moyen terme (3-6 mois)</option>
+                                    <option value="exploration">En exploration</option>
+                                </select>
                             </div>
 
                             <!-- Champs spécifiques aux INVESTISSEURS -->
                             <div id="investorFields" class="form-group" style="display: none;">
                                 <label>Type d'investissement :</label>
-                                <div class="radio-group">
-                                    <label><input type="radio" name="investmentType" value="seed"> Seed (50k-500k€)</label>
-                                    <label><input type="radio" name="investmentType" value="serie-a"> Série A (500k-2M€)</label>
-                                    <label><input type="radio" name="investmentType" value="serie-b"> Série B+ (2M€+)</label>
-                                    <label><input type="radio" name="investmentType" value="strategique"> Stratégique</label>
-                                </div>
+                                <select name="investmentType" class="form-dropdown">
+                                    <option value="">Sélectionnez le type</option>
+                                    <option value="seed">Seed (50k-500k€)</option>
+                                    <option value="serie-a">Série A (500k-2M€)</option>
+                                    <option value="serie-b">Série B+ (2M€+)</option>
+                                    <option value="strategique">Stratégique</option>
+                                </select>
                             </div>
 
                             <div id="investorAmount" class="form-group" style="display: none;">
                                 <label>Montant d'investissement :</label>
-                                <div class="radio-group">
-                                    <label><input type="radio" name="amount" value="50k-100k"> 50k-100k€</label>
-                                    <label><input type="radio" name="amount" value="100k-500k"> 100k-500k€</label>
-                                    <label><input type="radio" name="amount" value="500k-1m"> 500k-1M€</label>
-                                    <label><input type="radio" name="amount" value="1m+"> 1M€+</label>
-                                </div>
+                                <select name="amount" class="form-dropdown">
+                                    <option value="">Sélectionnez le montant</option>
+                                    <option value="50k-100k">50k-100k€</option>
+                                    <option value="100k-500k">100k-500k€</option>
+                                    <option value="500k-1m">500k-1M€</option>
+                                    <option value="1m+">1M€+</option>
+                                </select>
                             </div>
 
                             <div id="investorSector" class="form-group" style="display: none;">
                                 <label>Secteur d'intérêt :</label>
-                                <div class="radio-group">
-                                    <label><input type="radio" name="sector" value="tech"> Tech</label>
-                                    <label><input type="radio" name="sector" value="finance"> Finance</label>
-                                    <label><input type="radio" name="sector" value="marketing"> Marketing</label>
-                                    <label><input type="radio" name="sector" value="sante"> Santé</label>
-                                    <label><input type="radio" name="sector" value="education"> Éducation</label>
-                                    <label><input type="radio" name="sector" value="autre"> Autre</label>
-                                </div>
+                                <select name="sector" class="form-dropdown">
+                                    <option value="">Sélectionnez un secteur</option>
+                                    <option value="tech">Tech</option>
+                                    <option value="finance">Finance</option>
+                                    <option value="marketing">Marketing</option>
+                                    <option value="sante">Santé</option>
+                                    <option value="education">Éducation</option>
+                                    <option value="autre">Autre</option>
+                                </select>
                             </div>
 
                             <div id="investorTimeline" class="form-group" style="display: none;">
                                 <label>Horizon d'investissement :</label>
-                                <div class="radio-group">
-                                    <label><input type="radio" name="timeline" value="immediate"> Immédiat</label>
-                                    <label><input type="radio" name="timeline" value="3mois"> 3 mois</label>
-                                    <label><input type="radio" name="timeline" value="6mois"> 6 mois</label>
-                                    <label><input type="radio" name="timeline" value="exploration"> En exploration</label>
-                                </div>
+                                <select name="timeline" class="form-dropdown">
+                                    <option value="">Sélectionnez l'horizon</option>
+                                    <option value="immediate">Immédiat</option>
+                                    <option value="3mois">3 mois</option>
+                                    <option value="6mois">6 mois</option>
+                                    <option value="exploration">En exploration</option>
+                                </select>
                             </div>
 
                             <!-- Champ commun : Intéressé -->
                             <div class="form-group">
                                 <label>Intéressé par WorkHub ?</label>
-                                <div class="radio-group">
-                                    <label><input type="radio" name="interested" value="oui" required> Oui, très intéressé !</label>
-                                    <label><input type="radio" name="interested" value="peut-etre" required> Peut-être, je veux en savoir plus</label>
-                                    <label><input type="radio" name="interested" value="non" required> Non, pas pour le moment</label>
-                                </div>
+                                <select name="interested" class="form-dropdown" required>
+                                    <option value="">Sélectionnez votre niveau d'intérêt</option>
+                                    <option value="oui">Oui, très intéressé !</option>
+                                    <option value="peut-etre">Peut-être, je veux en savoir plus</option>
+                                    <option value="non">Non, pas pour le moment</option>
+                                </select>
                             </div>
 
                             <div class="form-group">
@@ -680,45 +700,163 @@
                         <form id="interviewFormData" onsubmit="submitInterview(event)">
                             <div class="form-group">
                                 <label>Quel type de mission vous intéresse le plus ? (choisissez 1-3)</label>
-                                <div class="radio-group">
-                                    <label><input type="radio" name="questTypes" value="coding" required> Défis de programmation</label>
-                                    <label><input type="radio" name="questTypes" value="design" required> Création graphique/UI</label>
-                                    <label><input type="radio" name="questTypes" value="marketing" required> Stratégies marketing</label>
-                                    <label><input type="radio" name="questTypes" value="sales" required> Techniques de vente</label>
-                                    <label><input type="radio" name="questTypes" value="management" required> Gestion d'équipe</label>
-                                    <label><input type="radio" name="questTypes" value="analysis" required> Analyse de données</label>
-                                </div>
+                                <select name="questTypes" class="form-dropdown" multiple>
+                                    <optgroup label="💼 Business & Management">
+                                        <option value="accounting">Comptabilité et finance</option>
+                                        <option value="banking">Banque et services financiers</option>
+                                        <option value="business">Business et stratégie</option>
+                                        <option value="consulting">Conseil et expertise</option>
+                                        <option value="entrepreneurship">Entrepreneuriat et innovation</option>
+                                        <option value="human-resources">Ressources humaines</option>
+                                        <option value="insurance">Assurance et gestion des risques</option>
+                                        <option value="management">Gestion d'équipe</option>
+                                        <option value="real-estate">Immobilier et propriété</option>
+                                    </optgroup>
+                                    <optgroup label="🎨 Création & Design">
+                                        <option value="art">Art et création artistique</option>
+                                        <option value="design">Création graphique/UI</option>
+                                        <option value="fashion">Mode et textile</option>
+                                        <option value="music">Musique et audio</option>
+                                        <option value="photography">Photographie et vidéo</option>
+                                        <option value="writing">Écriture et rédaction</option>
+                                    </optgroup>
+                                    <optgroup label="🔬 Sciences & Recherche">
+                                        <option value="biotechnology">Biotechnologie et sciences</option>
+                                        <option value="chemistry">Chimie et laboratoire</option>
+                                        <option value="mathematics">Mathématiques et statistiques</option>
+                                        <option value="pharmaceutical">Pharmaceutique et recherche</option>
+                                        <option value="research">Recherche et développement</option>
+                                    </optgroup>
+                                    <optgroup label="💻 Technologie & Digital">
+                                        <option value="coding">Défis de programmation</option>
+                                        <option value="data-analysis">Analyse de données</option>
+                                        <option value="gaming">Jeux vidéo et divertissement</option>
+                                        <option value="telecommunications">Télécommunications</option>
+                                    </optgroup>
+                                    <optgroup label="🏗️ Construction & Industrie">
+                                        <option value="architecture">Architecture et urbanisme</option>
+                                        <option value="automotive">Automobile et transport</option>
+                                        <option value="aviation">Aviation et aéronautique</option>
+                                        <option value="construction">Construction et bâtiment</option>
+                                        <option value="engineering">Ingénierie technique</option>
+                                        <option value="logistics">Logistique et supply chain</option>
+                                        <option value="mechanics">Mécanique et maintenance</option>
+                                        <option value="transportation">Transport et mobilité</option>
+                                    </optgroup>
+                                    <optgroup label="🏥 Santé & Services">
+                                        <option value="healthcare">Santé et médecine</option>
+                                        <option value="hospitality">Hôtellerie et tourisme</option>
+                                        <option value="psychology">Psychologie et comportement</option>
+                                        <option value="social-work">Travail social et aide</option>
+                                        <option value="veterinary">Vétérinaire et animaux</option>
+                                    </optgroup>
+                                    <optgroup label="📚 Éducation & Communication">
+                                        <option value="communication">Communication et médias</option>
+                                        <option value="education">Éducation et formation</option>
+                                        <option value="journalism">Journalisme et information</option>
+                                        <option value="public-relations">Relations publiques</option>
+                                    </optgroup>
+                                    <optgroup label="🛒 Commerce & Vente">
+                                        <option value="customer-service">Service client et support</option>
+                                        <option value="marketing">Stratégies marketing</option>
+                                        <option value="retail">Commerce et vente au détail</option>
+                                        <option value="sales">Techniques de vente</option>
+                                    </optgroup>
+                                    <optgroup label="🌍 Environnement & Société">
+                                        <option value="agriculture">Agriculture et environnement</option>
+                                        <option value="environment">Environnement et développement durable</option>
+                                        <option value="nonprofit">Associatif et ONG</option>
+                                        <option value="sports">Sport et fitness</option>
+                                    </optgroup>
+                                    <optgroup label="⚖️ Droit & Sécurité">
+                                        <option value="law">Droit et juridique</option>
+                                        <option value="security">Sécurité et protection</option>
+                                    </optgroup>
+                                    <optgroup label="🍽️ Alimentation & Lifestyle">
+                                        <option value="food">Alimentation et restauration</option>
+                                    </optgroup>
+                                </select>
+                                <small class="form-help">Maintenez Ctrl (Cmd sur Mac) pour sélectionner plusieurs options</small>
                             </div>
 
                             <div class="form-group">
                                 <label>Durée idéale d'une mission :</label>
-                                <div class="radio-group">
-                                    <label><input type="radio" name="duration" value="15min" required> 15 minutes (rapide)</label>
-                                    <label><input type="radio" name="duration" value="30min" required> 30 minutes (optimal)</label>
-                                    <label><input type="radio" name="duration" value="1h" required> 1 heure (approfondi)</label>
-                                    <label><input type="radio" name="duration" value="plus" required> Plus d'1 heure (projet)</label>
-                                </div>
+                                <select name="duration" class="form-dropdown" required>
+                                    <option value="">Sélectionnez une durée</option>
+                                    <option value="15min">15 minutes (rapide)</option>
+                                    <option value="30min">30 minutes (optimal)</option>
+                                    <option value="1h">1 heure (approfondi)</option>
+                                    <option value="plus">Plus d'1 heure (projet)</option>
+                                </select>
                             </div>
 
                             <div class="form-group">
                                 <label>Niveau de difficulté préféré :</label>
-                                <div class="radio-group">
-                                    <label><input type="radio" name="difficulty" value="facile" required> Facile (débutant)</label>
-                                    <label><input type="radio" name="difficulty" value="moyen" required> Moyen (intermédiaire)</label>
-                                    <label><input type="radio" name="difficulty" value="difficile" required> Difficile (expert)</label>
-                                    <label><input type="radio" name="difficulty" value="mixte" required> Mixte (progression)</label>
-                                </div>
+                                <select name="difficulty" class="form-dropdown" required>
+                                    <option value="">Sélectionnez un niveau</option>
+                                    <option value="facile">Facile (débutant)</option>
+                                    <option value="moyen">Moyen (intermédiaire)</option>
+                                    <option value="difficile">Difficile (expert)</option>
+                                    <option value="mixte">Mixte (progression)</option>
+                                </select>
                             </div>
 
                             <div class="form-group">
                                 <label>Type de récompense motivant :</label>
-                                <div class="radio-group">
-                                    <label><input type="radio" name="rewards" value="points" required> Points d'expérience</label>
-                                    <label><input type="radio" name="rewards" value="badges" required> Badges de compétences</label>
-                                    <label><input type="radio" name="rewards" value="ranking" required> Classement</label>
-                                    <label><input type="radio" name="rewards" value="feedback" required> Feedback détaillé</label>
-                                    <label><input type="radio" name="rewards" value="network" required> Réseautage</label>
-                                </div>
+                                <select name="rewards" class="form-dropdown" multiple>
+                                    <optgroup label="🎮 Récompenses Gaming">
+                                        <option value="achievement-unlock">Déblocage d'achievements</option>
+                                        <option value="badges">Badges de compétences</option>
+                                        <option value="collectibles">Objets de collection</option>
+                                        <option value="cosmetics">Éléments cosmétiques</option>
+                                        <option value="currency">Monnaie virtuelle</option>
+                                        <option value="experience-points">Points d'expérience</option>
+                                        <option value="loot-boxes">Boîtes à surprises</option>
+                                        <option value="mastery-levels">Niveaux de maîtrise</option>
+                                        <option value="skill-tree">Arbre de compétences</option>
+                                        <option value="trophy-case">Vitrine de trophées</option>
+                                        <option value="unlockables">Éléments déblocables</option>
+                                        <option value="xp-multipliers">Multiplicateurs d'XP</option>
+                                    </optgroup>
+                                    <optgroup label="🏆 Compétition & Classement">
+                                        <option value="competitive-ranking">Classement compétitif</option>
+                                        <option value="leaderboards">Tableaux de classement</option>
+                                        <option value="special-titles">Titres spéciaux</option>
+                                        <option value="streaks">Séries de réussites</option>
+                                    </optgroup>
+                                    <optgroup label="💼 Développement Professionnel">
+                                        <option value="advancement">Progression de carrière</option>
+                                        <option value="career-insights">Insights carrière personnalisés</option>
+                                        <option value="certification">Certifications professionnelles</option>
+                                        <option value="coaching">Coaching et mentorat</option>
+                                        <option value="learning-resources">Ressources d'apprentissage</option>
+                                        <option value="mentorship">Programme de mentorat</option>
+                                        <option value="profile-enhancement">Amélioration de profil</option>
+                                    </optgroup>
+                                    <optgroup label="👥 Social & Communauté">
+                                        <option value="community-recognition">Reconnaissance communautaire</option>
+                                        <option value="networking">Réseautage professionnel</option>
+                                        <option value="recognition">Reconnaissance publique</option>
+                                        <option value="social-status">Statut social</option>
+                                        <option value="team-building">Activités team building</option>
+                                    </optgroup>
+                                    <optgroup label="🎁 Récompenses Exclusives">
+                                        <option value="bonus-content">Contenu bonus exclusif</option>
+                                        <option value="early-access">Accès anticipé aux fonctionnalités</option>
+                                        <option value="exclusive-events">Événements exclusifs</option>
+                                        <option value="premium-features">Fonctionnalités premium</option>
+                                        <option value="tangible-rewards">Récompenses tangibles</option>
+                                    </optgroup>
+                                    <optgroup label="⚡ Utilitaires & Avantages">
+                                        <option value="character-customization">Personnalisation d'avatar</option>
+                                        <option value="challenge-modes">Modes de défi avancés</option>
+                                        <option value="feedback">Feedback détaillé</option>
+                                        <option value="gift-cards">Cartes cadeaux</option>
+                                        <option value="time-savers">Gains de temps</option>
+                                        <option value="visibility-boost">Boost de visibilité</option>
+                                    </optgroup>
+                                </select>
+                                <small class="form-help">Maintenez Ctrl (Cmd sur Mac) pour sélectionner plusieurs options</small>
                             </div>
 
                             <div class="form-group">
@@ -727,8 +865,8 @@
                             </div>
 
                             <div class="form-group">
-                                <label>Email (optionnel) :</label>
-                                <input type="email" name="email" placeholder="votre@email.com">
+                                <label>Email :</label>
+                                <input type="email" name="email" required placeholder="votre@email.com">
                             </div>
 
                             <div class="form-actions">
