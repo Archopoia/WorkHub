@@ -327,6 +327,12 @@ Détails: ${data.details || 'Aucun'}`
             SecurityUtils.log('Email sent successfully!', response.status);
             RateLimiter.recordSubmission();
             alert('Merci ! Nous vous contacterons bientôt pour l\'aventure WorkHub !');
+
+            // Débloquer le badge contact
+            if (typeof unlockContactBadge === 'function') {
+                unlockContactBadge();
+            }
+
             hideForm();
             event.target.reset();
         }, function(error) {
@@ -384,6 +390,12 @@ Email: ${data.email || 'Non fourni'}`
             SecurityUtils.log('Interview email sent successfully!', response.status);
             RateLimiter.recordSubmission();
             alert('Merci pour vos idées ! Elles nous aideront à créer les meilleures quêtes WorkHub !');
+
+            // Débloquer le badge contact
+            if (typeof unlockContactBadge === 'function') {
+                unlockContactBadge();
+            }
+
             hideForm();
             event.target.reset();
         }, function(error) {

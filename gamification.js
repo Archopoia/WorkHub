@@ -38,12 +38,14 @@ class WorkHubGameSystem {
             <div class="quest-progress-container">
                 <div class="quest-progress-fill" id="questProgressFill"></div>
                 <div class="quest-progress-text" id="questProgressText">
+                    <span class="quest-icon">🎮</span>
                     <span>Exploration : 0%</span>
                 </div>
                 <div class="badge-container" id="badgeContainer"></div>
             </div>
         `;
         document.body.appendChild(progressBar);
+        console.log('Progress bar créée, badge container créé');
     }
 
     // Affichage des badges (maintenant intégré dans la barre)
@@ -66,8 +68,8 @@ class WorkHubGameSystem {
             });
         }, { threshold: [0, 0.1, 0.2, 0.3, 0.5, 0.7] });
 
-        // Observer toutes les sections principales
-        const sections = ['vision', 'probleme', 'solution', 'impact', 'equipe', 'contact'];
+        // Observer toutes les sections principales (sauf contact qui nécessite une action)
+        const sections = ['vision', 'probleme', 'solution', 'impact', 'equipe'];
         sections.forEach(id => {
             const section = document.getElementById(id);
             if (section) {
@@ -78,7 +80,7 @@ class WorkHubGameSystem {
             }
         });
 
-        // Fallback: détecter aussi au scroll
+        // Fallback: détecter aussi au scroll (sauf contact)
         let scrollTimeout;
         window.addEventListener('scroll', () => {
             clearTimeout(scrollTimeout);
@@ -188,10 +190,15 @@ class WorkHubGameSystem {
         `;
 
         const container = document.getElementById('badgeContainer');
-        container.appendChild(badgeElement);
+        if (container) {
+            container.appendChild(badgeElement);
+            console.log('Badge ajouté:', badge.icon, 'Container enfants:', container.children.length);
+        } else {
+            console.error('Badge container not found!');
+        }
 
         // Notification
-        this.showNotification(`Badge débloqué : ${badge.icon} ${badge.name}!`);
+        this.showNotification(`Étape accomplie : ${badge.icon}`);
 
         // Son de réussite (optionnel - simulé visuellement)
         this.playSuccessAnimation(badgeElement);
@@ -230,7 +237,7 @@ class WorkHubGameSystem {
 
     // Animation de succès
     playSuccessAnimation(element) {
-        element.style.animation = 'badgePop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+        element.style.animation = 'badgePop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards';
     }
 
     // Célébration de fin
@@ -243,13 +250,11 @@ class WorkHubGameSystem {
         celebration.className = 'celebration-modal';
         celebration.innerHTML = `
             <div class="celebration-content">
-                <h2>Vous avez exploré toute la proposition de WorkHub !</h2>
-                <p></p>
-                <p class="celebration-subtitle"></p>
+                <h2>Vous avez exploré toute la proposition !</h2>
+                <p>Merci de votre intérêt pour WorkHub</p>
                 <div class="celebration-badges">
                     ${this.badges.map(b => `<span class="celebration-badge">${b.icon}</span>`).join('')}
                 </div>
-                <button class="btn btn-primary" onclick="closeCelebration()">Rejoindre l'aventure</button>
             </div>
         `;
         document.body.appendChild(celebration);
@@ -257,6 +262,12 @@ class WorkHubGameSystem {
         setTimeout(() => {
             celebration.classList.add('show');
         }, 500);
+
+        // Fermer automatiquement après 3 secondes
+        setTimeout(() => {
+            celebration.classList.remove('show');
+            setTimeout(() => celebration.remove(), 300);
+        }, 3500);
 
         // Sauvegarder l'achievement
         localStorage.setItem('workhub_master_explorer', 'true');
@@ -318,7 +329,11 @@ class WorkHubGameSystem {
                 🏆
             </div>
         `;
-        document.getElementById('badgeContainer').appendChild(secretBadge);
+        const container = document.getElementById('badgeContainer');
+        if (container) {
+            container.appendChild(secretBadge);
+            console.log('Badge secret Konami ajouté');
+        }
         this.playSuccessAnimation(secretBadge);
     }
 
@@ -327,13 +342,17 @@ class WorkHubGameSystem {
         this.showNotification('🎯 Badge Secret : Chercheur de Secrets !');
         const secretBadge = document.createElement('div');
         secretBadge.className = 'badge-earned secret-badge';
-        secretBadge.title = ' ';
+        secretBadge.title = 'Détective';
         secretBadge.innerHTML = `
             <div class="badge-icon" style="background: #000000;">
                 🕵️
             </div>
         `;
-        document.getElementById('badgeContainer').appendChild(secretBadge);
+        const container = document.getElementById('badgeContainer');
+        if (container) {
+            container.appendChild(secretBadge);
+            console.log('Badge secret Détective ajouté');
+        }
         this.playSuccessAnimation(secretBadge);
     }
 
@@ -358,15 +377,21 @@ class WorkHubGameSystem {
             this.updateProgressBar();
 
             // Restaurer les badges
-            data.badges?.forEach(badge => {
+            console.log('Restauration des badges:', data.badges?.length || 0);
+            data.badges?.forEach((badge, index) => {
                 const badgeElement = document.createElement('div');
-                badgeElement.className = 'badge-earned';
+                badgeElement.className = 'badge-earned badge-restored';
+                badgeElement.title = badge.name;
                 badgeElement.innerHTML = `
                     <div class="badge-icon" style="background: ${badge.color};">
                         ${badge.icon}
                     </div>
                 `;
-                document.getElementById('badgeContainer').appendChild(badgeElement);
+                const container = document.getElementById('badgeContainer');
+                if (container) {
+                    container.appendChild(badgeElement);
+                    console.log(`Badge ${index + 1} restauré:`, badge.icon);
+                }
             });
 
             // Restaurer les liens de navigation colorisés
@@ -384,12 +409,13 @@ function closeCelebration() {
         celebration.classList.remove('show');
         setTimeout(() => celebration.remove(), 300);
     }
+}
 
-    // Rediriger vers le formulaire de contact
-    const contactSection = document.getElementById('contact');
-    if (contactSection) {
-        contactSection.scrollIntoView({ behavior: 'smooth' });
-        setTimeout(() => showForm('contact'), 500);
+// Fonction publique pour débloquer le badge contact après envoi de formulaire
+function unlockContactBadge() {
+    if (window.workHubGame) {
+        window.workHubGame.visitSection('contact');
+        console.log('Badge contact débloqué via formulaire');
     }
 }
 
