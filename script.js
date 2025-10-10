@@ -334,18 +334,18 @@ Horizon: ${data.timeline || 'Non spécifié'}`;
         user_type: userType || 'Non spécifié',
         sector: data.sector || 'Non spécifié',
         experience: data.experience || 'Non spécifié',
-        investment_type: data.investmentType || '',
-        amount: data.amount || '',
+        investment_type: data.investmentType || 'Non spécifié',
+        amount: data.amount || 'Non spécifié',
         interested: data.interested || 'Non spécifié',
         email: data.email || 'Non fourni',
         details: data.details || 'Aucun détail fourni',
         // Additional fields for comprehensive template
-        candidat_job_type: data.candidatJobType || '',
-        availability: data.availability || '',
-        company_size: data.companySize || '',
-        hiring_needs: data.hiringNeeds || '',
-        urgency: data.urgency || '',
-        timeline: data.timeline || '',
+        candidat_job_type: data.candidatJobType || 'Non spécifié',
+        availability: data.availability || 'Non spécifié',
+        company_size: data.companySize || 'Non spécifié',
+        hiring_needs: data.hiringNeeds || 'Non spécifié',
+        urgency: data.urgency || 'Non spécifié',
+        timeline: data.timeline || 'Non spécifié',
         message: `Nouveau lead WorkHub !
 
 Type: ${userType}
@@ -357,6 +357,9 @@ Email: ${data.email}
 
 Détails: ${data.details || 'Aucun'}`
     };
+
+    // Debug: Log template parameters
+    console.log('Template Parameters:', templateParams);
 
     // Send email using EmailJS with config
     emailjs.send(
