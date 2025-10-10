@@ -16,7 +16,11 @@
     background: rgba(0, 0, 0, 0.9);
     border-top: 2px solid var(--color-accent-gold);
     position: relative;
-    height: 40px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
 }
 
 .quest-progress-fill {
@@ -29,6 +33,7 @@
         var(--color-accent-gold) 0%,
         var(--color-accent-red) 100%);
     transition: width 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    opacity: 0.3;
 }
 
 .quest-progress-text {
@@ -36,15 +41,24 @@
     z-index: 1;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 10px;
-    height: 100%;
     font-family: var(--font-display);
     font-weight: 700;
     color: var(--color-accent-gold);
     text-transform: uppercase;
     letter-spacing: 2px;
     font-size: 0.9rem;
+    flex: 1;
+}
+
+.quest-progress-text[style*="cursor: pointer"] {
+    transition: all 0.3s ease;
+}
+
+.quest-progress-text[style*="cursor: pointer"]:hover {
+    color: var(--color-accent-red);
+    transform: scale(1.05);
 }
 
 .quest-icon {
@@ -57,146 +71,34 @@
     50% { transform: translateY(-3px); }
 }
 
-/* Journal de quêtes */
+/* Journal de quêtes - Caché, remplacé par les tabs */
 .quest-log {
-    position: fixed;
-    right: 20px;
-    top: 140px;
-    z-index: 998;
-    background: rgba(0, 0, 0, 0.95);
-    border: 3px solid var(--color-accent-gold);
-    border-radius: 8px;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    max-width: 280px;
-    box-shadow: 0 10px 40px rgba(212, 175, 55, 0.5);
-    animation: questLogPulse 3s ease-in-out infinite;
-}
-
-@keyframes questLogPulse {
-    0%, 100% {
-        box-shadow: 0 10px 40px rgba(212, 175, 55, 0.5);
-    }
-    50% {
-        box-shadow: 0 10px 40px rgba(212, 175, 55, 0.8),
-                    0 0 20px rgba(212, 175, 55, 0.4);
-    }
-}
-
-.quest-log:not(.open) .quest-log-content {
     display: none;
 }
 
-.quest-log-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 16px;
-    background: linear-gradient(135deg,
-        var(--color-accent-gold) 0%,
-        var(--color-accent-gold-dark) 100%);
-    color: var(--color-background);
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.quest-log-header:hover {
-    background: linear-gradient(135deg,
-        var(--color-accent-gold-light) 0%,
-        var(--color-accent-gold) 100%);
-}
-
-.quest-log-icon {
-    font-size: 1.3rem;
-}
-
-.quest-log-title {
-    font-family: var(--font-display);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    flex: 1;
-}
-
-.quest-badge-count {
-    background: var(--color-accent-red);
-    color: white;
-    padding: 2px 8px;
-    border-radius: 12px;
-    font-size: 0.85rem;
-    font-weight: 700;
-}
-
-.quest-log-content {
-    padding: 12px;
-}
-
-.quest-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px;
-    margin-bottom: 8px;
-    background: rgba(255, 255, 255, 0.05);
-    border-left: 3px solid var(--color-accent-gold);
-    transition: all 0.3s ease;
+/* Navigation tabs - Colorisation basée sur la progression */
+.nav-links a.quest-completed {
+    color: var(--color-accent-gold) !important;
+    background: rgba(212, 175, 55, 0.1);
+    padding: 0.5rem 1rem;
     border-radius: 4px;
 }
 
-.quest-item:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateX(5px);
-}
-
-.quest-item.completed {
-    border-left-color: var(--color-accent-red);
-    opacity: 0.7;
-}
-
-.quest-status {
-    font-size: 1.1rem;
-}
-
-.quest-name {
-    font-size: 0.9rem;
-    color: var(--color-text);
-    flex: 1;
+.nav-links a.quest-completed::after {
+    width: 100% !important;
+    background: var(--color-accent-red) !important;
 }
 
 /* Badges */
 .badge-container {
-    position: fixed;
-    bottom: 60px;
-    left: 20px;
-    z-index: 998;
+    position: relative;
+    z-index: 2;
     display: flex;
-    gap: 10px;
+    gap: 8px;
     flex-wrap: nowrap;
     flex-direction: row;
-    max-width: calc(100vw - 340px);
-    overflow-x: auto;
-    padding: 10px;
-    background: rgba(0, 0, 0, 0.7);
-    border-radius: 8px;
-    border: 2px solid var(--color-accent-gold);
-}
-
-.badge-container::-webkit-scrollbar {
-    height: 6px;
-}
-
-.badge-container::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 3px;
-}
-
-.badge-container::-webkit-scrollbar-thumb {
-    background: var(--color-accent-gold);
-    border-radius: 3px;
-}
-
-.badge-container::-webkit-scrollbar-thumb:hover {
-    background: var(--color-accent-gold-light);
+    align-items: center;
+    overflow-x: visible;
 }
 
 .badge-earned {
@@ -207,7 +109,9 @@
     opacity: 0;
     animation: badgePop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
     flex-shrink: 0;
+    position: relative;
 }
+
 
 @keyframes badgePop {
     0% {
@@ -221,29 +125,21 @@
 }
 
 .badge-icon {
-    width: 60px;
-    height: 60px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2rem;
-    border: 3px solid var(--color-accent-red);
-    box-shadow: 0 5px 20px rgba(212, 175, 55, 0.5);
+    font-size: 1.1rem;
+    border: 1px solid var(--color-accent-gold);
+    box-shadow: 0 2px 10px rgba(212, 175, 55, 0.5);
     transition: all 0.3s ease;
 }
 
-.badge-earned:hover .badge-icon {
-    transform: scale(1.1) rotate(5deg);
-    box-shadow: 0 8px 30px rgba(212, 175, 55, 0.8);
-}
 
 .badge-name {
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: var(--color-accent-gold);
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    display: none;
 }
 
 .secret-badge .badge-icon {
@@ -266,8 +162,8 @@
     top: 100px;
     left: 50%;
     transform: translateX(-50%) translateY(-100px);
-    background: linear-gradient(135deg, 
-        var(--color-accent-gold) 0%, 
+    background: linear-gradient(135deg,
+        var(--color-accent-gold) 0%,
         var(--color-accent-gold-dark) 100%);
     color: var(--color-background);
     padding: 16px 32px;
@@ -356,7 +252,7 @@
 }
 
 .celebration-badge {
-    font-size: 3rem;
+    font-size: 1.5rem;
     animation: celebrationBadgeBounce 1s ease-in-out infinite;
 }
 
@@ -396,32 +292,28 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-    .quest-log {
-        right: 10px;
-        top: 100px;
-        max-width: 200px;
+    .quest-progress-container {
+        height: 40px;
+        padding: 0 10px;
+        gap: 10px;
     }
 
     .badge-container {
-        bottom: 50px;
-        left: 10px;
-        max-width: calc(100vw - 20px);
-        flex-direction: row;
-        justify-content: flex-start;
+        gap: 6px;
     }
 
     .badge-icon {
-        width: 50px;
-        height: 50px;
-        font-size: 1.5rem;
-    }
-
-    .quest-progress-container {
-        height: 35px;
+        width: 28px;
+        height: 28px;
+        font-size: 0.95rem;
     }
 
     .quest-progress-text {
         font-size: 0.75rem;
+    }
+
+    .quest-progress-text span:last-child {
+        display: none;
     }
 
     .celebration-content {
@@ -434,33 +326,34 @@
     }
 
     .celebration-badge {
-        font-size: 2rem;
+        font-size: 1rem;
     }
 }
 
 @media (max-width: 480px) {
-    .quest-log {
-        right: 5px;
-        max-width: 180px;
-    }
-
-    .quest-log-title {
-        font-size: 0.85rem;
+    .quest-progress-container {
+        padding: 0 5px;
+        height: 35px;
+        gap: 5px;
     }
 
     .badge-container {
-        bottom: 50px;
-        max-width: calc(100vw - 20px);
+        gap: 4px;
     }
-    
+
     .badge-icon {
-        width: 45px;
-        height: 45px;
-        font-size: 1.3rem;
+        width: 24px;
+        height: 24px;
+        font-size: 0.8rem;
+        border: 1px solid var(--color-accent-red);
     }
-    
-    .badge-name {
+
+    .quest-progress-text {
         font-size: 0.65rem;
+    }
+
+    .quest-icon {
+        font-size: 1rem;
     }
 }
 
