@@ -426,7 +426,7 @@ function resetGameProgress() {
         top: 0,
         behavior: 'smooth'
     });
-    
+
     // Wait for scroll animation to complete, then reset
     setTimeout(() => {
         localStorage.removeItem('workhub_progress');
