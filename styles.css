@@ -1233,6 +1233,11 @@ h3 {
     letter-spacing: 0.3px;
 }
 
+.quote-text:first-of-type,
+.quote-text:nth-of-type(2) {
+    font-style: normal;
+}
+
 .quote-text:first-of-type {
     font-size: 1.6rem;
     font-weight: 500;
