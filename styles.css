@@ -659,6 +659,185 @@ h3 {
     letter-spacing: 1px;
 }
 
+/* Solution Section - Special Texts */
+.solution-intro {
+    font-size: 1.5rem;
+    line-height: 1.6;
+    font-weight: 300;
+    color: var(--color-text);
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.solution-tagline {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--color-accent-gold);
+    text-align: center;
+    margin-bottom: 1rem;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+}
+
+.founder-intro-box {
+    margin-bottom: 3rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg,
+        rgba(26, 77, 122, 0.08) 0%,
+        rgba(26, 77, 122, 0.03) 100%);
+    border-radius: 8px;
+    border-left: 3px solid var(--color-accent-gold);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.founder-intro-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--color-text);
+    text-align: center;
+}
+
+.founder-intro-text strong {
+    color: var(--color-accent-gold);
+    font-weight: 700;
+}
+
+.team-vision-box {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.team-vision-text {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--color-text);
+    margin-bottom: 1rem;
+}
+
+.team-genilem-text {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-accent-gold);
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 8px rgba(212, 175, 55, 0.4);
+}
+
+.personal-story-intro {
+    font-size: 1.3rem;
+    line-height: 1.6;
+    font-weight: 400;
+    color: var(--color-accent-gold);
+    text-align: center;
+    margin-bottom: 2rem;
+    letter-spacing: 0.5px;
+}
+
+.recruiter-perspective {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    font-weight: 600;
+    color: var(--color-accent-gold);
+    text-align: center;
+    margin-top: 2rem;
+    letter-spacing: 0.5px;
+}
+
+.recruiter-description {
+    margin-top: 1rem;
+    font-size: 1rem;
+    line-height: 1.6;
+    text-align: center;
+    color: var(--color-text);
+}
+
+.imagine-box {
+    margin-top: 3rem;
+    padding: 2rem;
+    background: rgba(212, 175, 55, 0.1);
+    border-left: 4px solid var(--color-accent-gold);
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.15);
+}
+
+.imagine-text {
+    font-size: 1.3rem;
+    line-height: 1.6;
+    font-weight: 500;
+    color: var(--color-white);
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+/* CTA Section - Special Styling */
+.cta-workhub-brand {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--color-accent-gold);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 1.5rem;
+    text-shadow:
+        0 0 20px rgba(212, 175, 55, 0.6),
+        0 0 40px rgba(212, 175, 55, 0.4),
+        0 4px 8px rgba(0, 0, 0, 0.8);
+    display: block;
+}
+
+.cta-main-message {
+    font-size: 1.8rem;
+    line-height: 1.5;
+    font-weight: 600;
+    color: var(--color-white);
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+}
+
+/* Solution Result Box */
+.solution-result-box {
+    background: linear-gradient(135deg,
+        var(--color-accent-red-dark) 0%,
+        var(--color-accent-red) 100%);
+    color: var(--color-white);
+    padding: var(--spacing-md);
+    border: 2px solid var(--color-accent-gold);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: var(--spacing-md) 0;
+    position: relative;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+.solution-result-box::before,
+.solution-result-box::after {
+    content: '◆';
+    color: var(--color-accent-gold);
+    position: absolute;
+    font-size: 1.5rem;
+}
+
+.solution-result-box::before {
+    top: 10px;
+    left: 10px;
+}
+
+.solution-result-box::after {
+    bottom: 10px;
+    right: 10px;
+}
+
+.result-emphasis {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--color-accent-gold);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 0.5rem;
+    text-shadow: 0 2px 10px rgba(212, 175, 55, 0.5);
+}
+
 /* ============================================
    PLACEHOLDER IMAGES
    ============================================ */
@@ -1006,12 +1185,18 @@ h3 {
 
 .problem-quote {
     position: relative;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(10px);
-    padding: var(--spacing-lg);
+    background: linear-gradient(135deg,
+        rgba(0, 0, 0, 0.8) 0%,
+        rgba(26, 26, 26, 0.9) 50%,
+        rgba(0, 0, 0, 0.8) 100%);
+    backdrop-filter: blur(15px);
+    padding: 3rem 2.5rem;
     margin-bottom: var(--spacing-md);
-    border-left: 4px solid var(--color-accent-gold);
-    border-right: 4px solid var(--color-accent-gold);
+    border-left: 5px solid var(--color-accent-gold);
+    border-right: 5px solid var(--color-accent-gold);
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.5),
+        inset 0 0 50px rgba(212, 175, 55, 0.05);
 }
 
 .quote-decoration-top,
@@ -1038,16 +1223,56 @@ h3 {
 }
 
 .quote-text {
-    font-size: 1.3rem;
-    line-height: 1.8;
+    font-size: 1.4rem;
+    line-height: 1.9;
     text-align: center;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     font-style: italic;
+    color: var(--color-white);
+    font-weight: 300;
+    letter-spacing: 0.3px;
+}
+
+.quote-text:first-of-type {
+    font-size: 1.6rem;
+    font-weight: 500;
     color: var(--color-accent-gold-light);
+    text-shadow: 0 2px 15px rgba(212, 175, 55, 0.3);
 }
 
 .quote-text:last-of-type {
     margin-bottom: 0;
+    font-size: 1.3rem;
+    color: var(--color-text-light);
+}
+
+.quote-text strong {
+    color: var(--color-accent-gold);
+    font-weight: 900;
+    font-style: normal;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    display: inline-block;
+    text-shadow:
+        0 0 10px rgba(212, 175, 55, 0.5),
+        0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.quote-text a {
+    color: var(--color-accent-gold);
+    text-decoration: none;
+    font-weight: 700;
+    font-style: normal;
+    border-bottom: 2px solid var(--color-accent-gold);
+    transition: all 0.3s ease;
+    padding-bottom: 2px;
+}
+
+.quote-text a:hover {
+    color: var(--color-accent-gold-dark);
+    border-bottom-color: var(--color-accent-gold-dark);
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
 }
 
 .problem-reality {
@@ -1151,6 +1376,11 @@ h3 {
     line-height: 1;
     margin-bottom: var(--spacing-xs);
     text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    max-width: 100%;
+    text-align: center;
 }
 
 .stat-card.highlight .stat-number {
@@ -1172,6 +1402,20 @@ h3 {
     line-height: 1.6;
     color: var(--color-off-white);
     margin-bottom: var(--spacing-sm);
+}
+
+.stat-description a {
+    color: var(--color-accent-gold);
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1px solid var(--color-accent-gold);
+    transition: all 0.3s ease;
+}
+
+.stat-description a:hover {
+    color: var(--color-accent-gold-dark);
+    border-bottom-color: var(--color-accent-gold-dark);
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
 }
 
 .stat-source {
@@ -2165,6 +2409,88 @@ h3 {
 
     .nav-brand {
         font-size: 1.5rem;
+    }
+
+    /* Special text classes responsive */
+    .solution-intro {
+        font-size: 1.2rem;
+    }
+
+    .solution-tagline {
+        font-size: 1.1rem;
+    }
+
+    .founder-intro-box {
+        padding: 1rem;
+    }
+
+    .founder-intro-text {
+        font-size: 0.9rem;
+    }
+
+    .team-genilem-text {
+        font-size: 1rem;
+    }
+
+    .personal-story-intro {
+        font-size: 1.1rem;
+    }
+
+    .recruiter-perspective {
+        font-size: 1.05rem;
+    }
+
+    .recruiter-description {
+        font-size: 0.95rem;
+    }
+
+    .imagine-box {
+        padding: 1.5rem;
+    }
+
+    .imagine-text {
+        font-size: 1.1rem;
+    }
+
+    /* CTA and Result responsive */
+    .cta-workhub-brand {
+        font-size: 2rem;
+        letter-spacing: 2px;
+    }
+
+    .cta-main-message {
+        font-size: 1.2rem;
+    }
+
+    .solution-result-box {
+        font-size: 1rem;
+        padding: 1.5rem;
+    }
+
+    .result-emphasis {
+        font-size: 1.2rem;
+        letter-spacing: 1px;
+    }
+
+    /* Problem section quotes responsive */
+    .problem-quote {
+        padding: 2rem 1.5rem;
+    }
+
+    .quote-text {
+        font-size: 1.1rem;
+    }
+
+    .quote-text:first-of-type {
+        font-size: 1.3rem;
+    }
+
+    .quote-text:last-of-type {
+        font-size: 1rem;
+    }
+
+    .quote-text strong {
+        letter-spacing: 0.5px;
     }
 }
 
