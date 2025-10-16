@@ -149,7 +149,7 @@ class WorkHubGameSystem {
                 `;
                 text.style.cursor = 'pointer';
                 text.onclick = () => {
-                    if (confirm('Voulez-vous réinitialiser votre progression et recommencer l\'aventure ?')) {
+                    if (confirm('Voulez-vous réinitialiser la découverte du projet ?')) {
                         resetGameProgress();
                     }
                 };

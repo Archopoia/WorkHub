@@ -9,28 +9,6 @@
     }
 })();
 
-// Initialize user type button functionality
-document.addEventListener('DOMContentLoaded', function() {
-    const userTypeButtons = document.querySelectorAll('.user-type-btn');
-    const userTypeInput = document.getElementById('userTypeInput');
-
-    userTypeButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            // Remove active class from all buttons
-            userTypeButtons.forEach(btn => btn.classList.remove('active'));
-
-            // Add active class to clicked button
-            this.classList.add('active');
-
-            // Set the hidden input value
-            const userType = this.getAttribute('data-value');
-            userTypeInput.value = userType;
-
-            // Show relevant fields
-            toggleUserTypeFields(userType);
-        });
-    });
-});
 
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -189,32 +167,20 @@ function showForm(formType) {
 
     if (form) {
         form.style.display = 'flex';
-        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        document.body.style.overflow = 'hidden';
 
-        // Pre-fill user type based on button clicked
         if (formType === 'contact') {
-            // Reset all fields first
-            toggleUserTypeFields(null);
-
             const event = window.event || {};
-            const buttonText = event.target ? event.target.textContent : '';
-            if (buttonText.includes('candidat')) {
-                const candidatRadio = form.querySelector('input[value="candidat"]');
-                if (candidatRadio) {
-                    candidatRadio.checked = true;
-                    toggleUserTypeFields('candidat');
-                }
-            } else if (buttonText.includes('entreprise')) {
-                const entrepriseRadio = form.querySelector('input[value="entreprise"]');
-                if (entrepriseRadio) {
-                    entrepriseRadio.checked = true;
-                    toggleUserTypeFields('entreprise');
-                }
-            } else if (buttonText.includes('investisseur')) {
-                const investisseurRadio = form.querySelector('input[value="investisseur"]');
-                if (investisseurRadio) {
-                    investisseurRadio.checked = true;
-                    toggleUserTypeFields('investisseur');
+            const buttonText = event.target ? event.target.textContent.toLowerCase() : '';
+            const userTypeSelect = form.querySelector('select[name="userType"]');
+
+            if (userTypeSelect) {
+                if (buttonText.includes('candidat')) {
+                    userTypeSelect.value = 'candidat';
+                } else if (buttonText.includes('entreprise')) {
+                    userTypeSelect.value = 'entreprise';
+                } else if (buttonText.includes('investisseur')) {
+                    userTypeSelect.value = 'investisseur';
                 }
             }
         }
@@ -226,66 +192,9 @@ function hideForm() {
     forms.forEach(form => {
         form.style.display = 'none';
     });
-    document.body.style.overflow = 'auto'; // Restore scrolling
-
-    // Reset all user type fields
-    toggleUserTypeFields(null);
+    document.body.style.overflow = 'auto';
 }
 
-function toggleUserTypeFields(userType) {
-    // Hide all specific fields first
-    const allFieldGroups = [
-        'candidatFields', 'candidatSector', 'candidatExperience', 'candidatAvailability',
-        'companyFields', 'companySector', 'companyNeeds', 'companyUrgency',
-        'investorFields', 'investorAmount', 'investorSector', 'investorTimeline'
-    ];
-
-    allFieldGroups.forEach(groupId => {
-        const group = document.getElementById(groupId);
-        if (group) {
-            group.style.display = 'none';
-            // Remove required and clear selections for dropdowns
-            const dropdowns = group.querySelectorAll('select');
-            dropdowns.forEach(dropdown => {
-                dropdown.removeAttribute('required');
-                dropdown.selectedIndex = 0; // Reset to first option
-            });
-        }
-    });
-
-    // Show and require fields based on user type
-    if (userType === 'candidat') {
-        const candidatGroups = ['candidatFields', 'candidatSector', 'candidatExperience', 'candidatAvailability'];
-        candidatGroups.forEach(groupId => {
-            const group = document.getElementById(groupId);
-            if (group) {
-                group.style.display = 'block';
-                const dropdowns = group.querySelectorAll('select');
-                dropdowns.forEach(dropdown => dropdown.setAttribute('required', 'required'));
-            }
-        });
-    } else if (userType === 'entreprise') {
-        const companyGroups = ['companyFields', 'companySector', 'companyNeeds', 'companyUrgency'];
-        companyGroups.forEach(groupId => {
-            const group = document.getElementById(groupId);
-            if (group) {
-                group.style.display = 'block';
-                const dropdowns = group.querySelectorAll('select');
-                dropdowns.forEach(dropdown => dropdown.setAttribute('required', 'required'));
-            }
-        });
-    } else if (userType === 'investisseur') {
-        const investorGroups = ['investorFields', 'investorAmount', 'investorSector', 'investorTimeline'];
-        investorGroups.forEach(groupId => {
-            const group = document.getElementById(groupId);
-            if (group) {
-                group.style.display = 'block';
-                const dropdowns = group.querySelectorAll('select');
-                dropdowns.forEach(dropdown => dropdown.setAttribute('required', 'required'));
-            }
-        });
-    }
-}
 
 function submitForm(event) {
     event.preventDefault();
@@ -298,74 +207,43 @@ function submitForm(event) {
 
     const formData = new FormData(event.target);
     const rawData = Object.fromEntries(formData.entries());
-
-    // Sanitize all input data
     const data = SecurityUtils.sanitizeFormData(rawData);
 
-    // Check if user type is selected, if not, allow general submission
-    const userType = data.userType || 'general';
+    const sectorsSelect = event.target.querySelector('select[name="sectors"]');
+    const positionsSelect = event.target.querySelector('select[name="positions"]');
+    const timelineSelect = event.target.querySelector('select[name="timeline"]');
 
-    // Handle multiple selections for dropdowns
-    const candidatJobTypes = formData.getAll('candidatJobType').join(', ') || '';
-    const sectors = formData.getAll('sector').join(', ') || '';
-    const availabilities = formData.getAll('availability').join(', ') || '';
-    const timelines = formData.getAll('timeline').join(', ') || '';
+    const sectors = Array.from(sectorsSelect.selectedOptions).map(opt => SecurityUtils.sanitizeInput(opt.text));
+    const positions = Array.from(positionsSelect.selectedOptions).map(opt => SecurityUtils.sanitizeInput(opt.text));
+    const timeline = Array.from(timelineSelect.selectedOptions).map(opt => SecurityUtils.sanitizeInput(opt.text));
 
-    // Prepare email template parameters with specific fields per user type
-    let specificFields = '';
-
-    if (userType === 'candidat') {
-        specificFields = `Type de poste: ${candidatJobTypes || 'Non spécifié'}
-Secteur: ${sectors || 'Non spécifié'}
-Expérience: ${data.experience || 'Non spécifié'}
-Disponibilité: ${availabilities || 'Non spécifié'}`;
-    } else if (userType === 'entreprise') {
-        specificFields = `Taille entreprise: ${data.companySize || 'Non spécifié'}
-Secteur: ${sectors || 'Non spécifié'}
-Besoins de recrutement: ${data.hiringNeeds || 'Non spécifié'}
-Urgence: ${data.urgency || 'Non spécifié'}`;
-    } else if (userType === 'investisseur') {
-        specificFields = `Type d'investissement: ${data.investmentType || 'Non spécifié'}
-Montant: ${data.amount || 'Non spécifié'}
-Secteur d'intérêt: ${sectors || 'Non spécifié'}
-Horizon: ${timelines || 'Non spécifié'}`;
-    } else {
-        // General submission - no specific fields
-        specificFields = 'Type d\'utilisateur: Non spécifié';
-    }
+    const budgetSelect = event.target.querySelector('select[name="budget"]');
+    const budgetText = budgetSelect.selectedOptions[0] ? budgetSelect.selectedOptions[0].text : 'Non précisé';
 
     const templateParams = {
         to_email: WORKHUB_CONFIG.contactEmail,
-        from_name: userType || 'Utilisateur WorkHub',
-        user_type: userType || 'Non spécifié',
-        sector: sectors || 'Non spécifié',
-        experience: data.experience || 'Non spécifié',
-        investment_type: data.investmentType || '',
-        amount: data.amount || '',
-        interested: data.interested || 'Non spécifié',
+        from_name: 'Contact WorkHub',
+        user_type: data.userType || 'Non spécifié',
+        sectors: sectors.join(', ') || 'Non spécifié',
+        positions: positions.join(', ') || 'Non spécifié',
+        timeline: timeline.join(', ') || 'Non spécifié',
+        budget: budgetText,
+        interest: data.interest || 'Non spécifié',
         email: data.email || 'Non fourni',
-        details: data.details || 'Aucun détail fourni',
-        // Additional fields for comprehensive template
-        candidat_job_type: candidatJobTypes || '',
-        availability: availabilities || '',
-        company_size: data.companySize || '',
-        hiring_needs: data.hiringNeeds || '',
-        urgency: data.urgency || '',
-        timeline: timelines || '',
-        message: `Nouveau lead WorkHub !
+        user_message: data.message || 'Aucun message',
+        message: `Nouveau contact WorkHub !
 
-Type: ${userType}
+Type: ${data.userType || 'Non spécifié'}
+Secteur(s): ${sectors.join(', ') || 'Non spécifié'}
+Poste(s) / Besoin(s): ${positions.join(', ') || 'Non spécifié'}
+Échéance: ${timeline.join(', ') || 'Non spécifié'}
+Budget: ${budgetText}
+Niveau d'intérêt: ${data.interest || 'Non spécifié'}
+Email: ${data.email || 'Non fourni'}
 
-${specificFields}
-
-Intéressé: ${data.interested}
-Email: ${data.email}
-
-Détails: ${data.details || 'Aucun'}`
+Message:
+${data.message || 'Aucun message'}`
     };
-
-    // Debug: Log template parameters
-    console.log('Template Parameters:', templateParams);
 
     // Send email using EmailJS with config
     emailjs.send(
@@ -466,13 +344,4 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
-// Toggle user type fields when user type changes
-document.addEventListener('DOMContentLoaded', function() {
-    const userTypeRadios = document.querySelectorAll('input[name="userType"]');
-    userTypeRadios.forEach(radio => {
-        radio.addEventListener('change', function() {
-            toggleUserTypeFields(this.value);
-        });
-    });
-});
 

@@ -519,268 +519,195 @@
                         <form id="workhubForm" onsubmit="submitForm(event)">
                             <div class="form-group">
                                 <label>Vous êtes :</label>
-                                <div class="user-type-buttons">
-                                    <button type="button" class="user-type-btn" data-value="candidat">
-                                        <span class="btn-text">Candidat</span>
-                                    </button>
-                                    <button type="button" class="user-type-btn" data-value="entreprise">
-                                        <span class="btn-text">Recruteur</span>
-                                    </button>
-                                    <button type="button" class="user-type-btn" data-value="investisseur">
-                                        <span class="btn-text">Investisseur</span>
-                                    </button>
-                                </div>
-                                <input type="hidden" name="userType" id="userTypeInput" required>
+                                <select name="userType" class="form-dropdown" required>
+                                    <option value="">Sélectionnez votre profil</option>
+                                    <option value="candidat">Candidat</option>
+                                    <option value="entreprise">Entreprise / Recruteur</option>
+                                    <option value="investisseur">Investisseur</option>
+                                </select>
                             </div>
 
-                            <!-- Champs spécifiques aux CANDIDATS -->
-                            <div id="candidatFields" class="form-group" style="display: none;">
-                                <label>Type de poste recherché :</label>
-                                <select name="candidatJobType" class="form-dropdown" multiple>
-                                    <option value="">Sélectionnez un type de poste</option>
-                                    <optgroup label="📋 Contrats Salariés">
+                            <div class="form-group">
+                                <label>Secteur(s) d'intérêt (optionnel - choisissez 1 ou plus) :</label>
+                                <select name="sectors" class="form-dropdown" multiple>
+                                    <optgroup label="💻 Tech & Digital">
+                                        <option value="software">Développement logiciel</option>
+                                        <option value="web">Web & E-commerce</option>
+                                        <option value="mobile">Applications mobiles</option>
+                                        <option value="ai">Intelligence artificielle</option>
+                                        <option value="cybersecurity">Cybersécurité</option>
+                                        <option value="data">Data & Analytics</option>
+                                        <option value="cloud">Cloud & Infrastructure</option>
+                                        <option value="gaming">Jeux vidéo</option>
+                                    </optgroup>
+                                    <optgroup label="💰 Finance & Business">
+                                        <option value="banking">Banque</option>
+                                        <option value="finance">Finance & Investissement</option>
+                                        <option value="insurance">Assurance</option>
+                                        <option value="accounting">Comptabilité</option>
+                                        <option value="consulting">Conseil & Stratégie</option>
+                                        <option value="audit">Audit</option>
+                                    </optgroup>
+                                    <optgroup label="📢 Marketing & Communication">
+                                        <option value="marketing">Marketing digital</option>
+                                        <option value="advertising">Publicité</option>
+                                        <option value="pr">Relations publiques</option>
+                                        <option value="content">Création de contenu</option>
+                                        <option value="social-media">Réseaux sociaux</option>
+                                    </optgroup>
+                                    <optgroup label="🏥 Santé & Sciences">
+                                        <option value="healthcare">Santé & Médecine</option>
+                                        <option value="biotech">Biotechnologie</option>
+                                        <option value="pharma">Pharmaceutique</option>
+                                        <option value="research">Recherche scientifique</option>
+                                        <option value="medtech">Technologies médicales</option>
+                                    </optgroup>
+                                    <optgroup label="🏗️ Industrie & Construction">
+                                        <option value="construction">Construction & BTP</option>
+                                        <option value="engineering">Ingénierie</option>
+                                        <option value="manufacturing">Manufacturing</option>
+                                        <option value="automotive">Automobile</option>
+                                        <option value="aerospace">Aérospatiale</option>
+                                        <option value="energy">Énergie</option>
+                                    </optgroup>
+                                    <optgroup label="🛒 Commerce & Services">
+                                        <option value="retail">Commerce de détail</option>
+                                        <option value="ecommerce">E-commerce</option>
+                                        <option value="hospitality">Hôtellerie</option>
+                                        <option value="tourism">Tourisme</option>
+                                        <option value="food">Restauration & Alimentation</option>
+                                        <option value="logistics">Logistique & Transport</option>
+                                    </optgroup>
+                                    <optgroup label="📚 Éducation & Culture">
+                                        <option value="education">Éducation & Formation</option>
+                                        <option value="edtech">Technologies éducatives</option>
+                                        <option value="media">Médias & Divertissement</option>
+                                        <option value="arts">Arts & Culture</option>
+                                        <option value="publishing">Édition</option>
+                                    </optgroup>
+                                    <optgroup label="🌍 Environnement & Social">
+                                        <option value="environment">Environnement & Développement durable</option>
+                                        <option value="agriculture">Agriculture</option>
+                                        <option value="nonprofit">Associatif & ONG</option>
+                                        <option value="social">Impact social</option>
+                                    </optgroup>
+                                    <optgroup label="⚖️ Juridique & Public">
+                                        <option value="law">Droit & Juridique</option>
+                                        <option value="public-sector">Fonction publique</option>
+                                        <option value="politics">Politique & Gouvernance</option>
+                                    </optgroup>
+                                    <optgroup label="🏢 Immobilier & Propriété">
+                                        <option value="real-estate">Immobilier</option>
+                                        <option value="property">Gestion de patrimoine</option>
+                                        <option value="architecture">Architecture & Urbanisme</option>
+                                    </optgroup>
+                                    <optgroup label="🎨 Création & Design">
+                                        <option value="design">Design & UX/UI</option>
+                                        <option value="fashion">Mode & Textile</option>
+                                        <option value="creative">Industries créatives</option>
+                                    </optgroup>
+                                    <optgroup label="🔧 Autres">
+                                        <option value="sports">Sport & Fitness</option>
+                                        <option value="security">Sécurité</option>
+                                        <option value="hr">Ressources humaines</option>
+                                        <option value="other">Autre</option>
+                                    </optgroup>
+                                </select>
+                                <small class="form-help">Maintenez Ctrl (Cmd sur Mac) pour sélectionner plusieurs options</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Type de poste / besoin (optionnel - choisissez 1 ou plus) :</label>
+                                <select name="positions" class="form-dropdown" multiple>
+                                    <optgroup label="💼 Contrats Permanents">
                                         <option value="cdi">CDI - Contrat à Durée Indéterminée</option>
                                         <option value="cdd">CDD - Contrat à Durée Déterminée</option>
-                                        <option value="ctt">CTT - Contrat de Travail Temporaire</option>
-                                        <option value="interim">Intérim - Mission temporaire</option>
-                                        <option value="apprentissage">Apprentissage - Formation en alternance</option>
-                                        <option value="contrat-pro">Contrat de Professionnalisation</option>
+                                        <option value="temps-plein">Temps plein</option>
+                                        <option value="temps-partiel">Temps partiel</option>
                                     </optgroup>
-                                    <optgroup label="🎓 Formation & Début de Carrière">
-                                        <option value="stage">Stage - Découverte professionnelle</option>
-                                        <option value="stage-obligatoire">Stage Obligatoire - Cursus scolaire</option>
-                                        <option value="stage-volontaire">Stage Volontaire - Enrichissement</option>
-                                        <option value="alternance">Alternance - Formation en entreprise</option>
-                                        <option value="vae">VAE - Validation des Acquis de l'Expérience</option>
-                                        <option value="formation-continue">Formation Continue - Perfectionnement</option>
+                                    <optgroup label="🎓 Formation & Alternance">
+                                        <option value="stage">Stage</option>
+                                        <option value="alternance">Alternance</option>
+                                        <option value="apprentissage">Apprentissage</option>
+                                        <option value="contrat-pro">Contrat de professionnalisation</option>
                                     </optgroup>
-                                    <optgroup label="💼 Travail Indépendant">
-                                        <option value="freelance">Freelance - Travail indépendant</option>
-                                        <option value="auto-entrepreneur">Auto-entrepreneur - Micro-entreprise</option>
-                                        <option value="portage-salarial">Portage Salarial - Statut hybride</option>
-                                        <option value="consultant">Consultant - Expertise métier</option>
-                                        <option value="prestataire">Prestataire de Services</option>
+                                    <optgroup label="🚀 Freelance & Indépendant">
+                                        <option value="freelance">Freelance</option>
+                                        <option value="auto-entrepreneur">Auto-entrepreneur</option>
+                                        <option value="consultant">Consultant</option>
+                                        <option value="portage">Portage salarial</option>
+                                        <option value="mission">Mission temporaire</option>
                                     </optgroup>
-                                    <optgroup label="🏢 Fonction Publique">
-                                        <option value="fonction-publique">Fonction Publique - Administration</option>
-                                        <option value="concours">Concours - Recrutement public</option>
-                                        <option value="contractuel">Contractuel Public - CDD public</option>
-                                        <option value="detachement">Détachement - Mobilité publique</option>
+                                    <optgroup label="🏢 Management & Leadership">
+                                        <option value="junior">Junior (0-2 ans)</option>
+                                        <option value="confirmed">Confirmé (2-5 ans)</option>
+                                        <option value="senior">Senior (5-10 ans)</option>
+                                        <option value="expert">Expert (10+ ans)</option>
+                                        <option value="manager">Manager</option>
+                                        <option value="director">Directeur</option>
+                                        <option value="executive">C-level / Executive</option>
                                     </optgroup>
-                                    <optgroup label="🌍 International & Spécialisé">
-                                        <option value="expatriation">Expatriation - Mission à l'étranger</option>
-                                        <option value="detachement-international">Détachement International</option>
-                                        <option value="mission-humanitaire">Mission Humanitaire - ONG</option>
-                                        <option value="cooperation">Coopération Internationale</option>
-                                    </optgroup>
-                                    <optgroup label="🚀 Entrepreneuriat">
-                                        <option value="startup">Startup - Jeune entreprise innovante</option>
-                                        <option value="creation-entreprise">Création d'Entreprise</option>
-                                        <option value="rachat-entreprise">Rachat d'Entreprise</option>
-                                        <option value="franchise">Franchise - Réseau commercial</option>
-                                    </optgroup>
-                                    <optgroup label="🎯 Secteurs Spécialisés">
-                                        <option value="interim-specialise">Intérim Spécialisé - Métiers techniques</option>
-                                        <option value="mission-interim">Mission d'Intérim - Court terme</option>
-                                        <option value="consulting">Consulting - Conseil stratégique</option>
-                                        <option value="audit">Audit - Contrôle et vérification</option>
-                                    </optgroup>
-                                    <optgroup label="📅 Temps Partiel & Flexible">
-                                        <option value="temps-partiel">Temps Partiel - Horaires réduits</option>
-                                        <option value="temps-plein">Temps Plein - 35h/semaine</option>
-                                        <option value="travail-weekend">Travail Weekend - Samedi/Dimanche</option>
-                                        <option value="travail-nuit">Travail de Nuit - Horaires décalés</option>
-                                        <option value="travail-distance">Télétravail - Travail à distance</option>
+                                    <optgroup label="🌍 International">
+                                        <option value="remote">Télétravail / Remote</option>
+                                        <option value="hybrid">Hybride</option>
+                                        <option value="onsite">Sur site</option>
+                                        <option value="international">International / Expatriation</option>
                                     </optgroup>
                                 </select>
                                 <small class="form-help">Maintenez Ctrl (Cmd sur Mac) pour sélectionner plusieurs options</small>
                             </div>
 
-                            <div id="candidatSector" class="form-group" style="display: none;">
-                                <label>Secteur d'activité :</label>
-                                <select name="sector" class="form-dropdown" multiple>
-                                    <option value="tech">Tech & Digital</option>
-                                    <option value="finance">Finance & Banque</option>
-                                    <option value="marketing">Marketing & Communication</option>
-                                    <option value="sante">Santé & Médical</option>
-                                    <option value="education">Éducation & Formation</option>
-                                    <option value="commerce">Commerce & Vente</option>
-                                    <option value="industrie">Industrie & Production</option>
-                                    <option value="logistique">Logistique & Transport</option>
-                                    <option value="immobilier">Immobilier & Construction</option>
-                                    <option value="tourisme">Tourisme & Hôtellerie</option>
-                                    <option value="agriculture">Agriculture & Environnement</option>
-                                    <option value="juridique">Juridique & Droit</option>
-                                    <option value="consulting">Consulting & Conseil</option>
-                                    <option value="assurance">Assurance & Gestion</option>
-                                    <option value="media">Médias & Divertissement</option>
-                                    <option value="sport">Sport & Fitness</option>
-                                    <option value="art">Art & Culture</option>
-                                    <option value="autre">Autre</option>
-                                </select>
-                                <small class="form-help">Maintenez Ctrl (Cmd sur Mac) pour sélectionner plusieurs options</small>
-                            </div>
-
-                            <div id="candidatExperience" class="form-group" style="display: none;">
-                                <label>Niveau d'expérience :</label>
-                                <select name="experience" class="form-dropdown">
-                                    <option value="">Sélectionnez votre niveau</option>
-                                    <option value="debutant">Débutant (0-2 ans)</option>
-                                    <option value="intermediaire">Intermédiaire (2-5 ans)</option>
-                                    <option value="senior">Senior (5-10 ans)</option>
-                                    <option value="expert">Expert (10+ ans)</option>
-                                </select>
-                            </div>
-
-                            <div id="candidatAvailability" class="form-group" style="display: none;">
-                                <label>Disponibilité :</label>
-                                <select name="availability" class="form-dropdown" multiple>
-                                    <option value="immediate">Immédiate</option>
-                                    <option value="1mois">Dans 1 mois</option>
-                                    <option value="2mois">Dans 2 mois</option>
-                                    <option value="3mois">Dans 3 mois</option>
-                                    <option value="6mois">Dans 6 mois</option>
-                                    <option value="1an">Dans 1 an</option>
-                                    <option value="flexible">Flexible</option>
-                                    <option value="weekend">Disponible weekend</option>
-                                    <option value="soir">Disponible en soirée</option>
-                                    <option value="nuit">Disponible de nuit</option>
-                                </select>
-                                <small class="form-help">Maintenez Ctrl (Cmd sur Mac) pour sélectionner plusieurs options</small>
-                            </div>
-
-                            <!-- Champs spécifiques aux ENTREPRISES -->
-                            <div id="companyFields" class="form-group" style="display: none;">
-                                <label>Taille de l'entreprise :</label>
-                                <select name="companySize" class="form-dropdown">
-                                    <option value="">Sélectionnez la taille</option>
-                                    <option value="1-10">1-10 employés</option>
-                                    <option value="11-50">11-50 employés</option>
-                                    <option value="51-200">51-200 employés</option>
-                                    <option value="200+">200+ employés</option>
-                                </select>
-                            </div>
-
-                            <div id="companySector" class="form-group" style="display: none;">
-                                <label>Secteur d'activité :</label>
-                                <select name="sector" class="form-dropdown" multiple>
-                                    <option value="tech">Tech & Digital</option>
-                                    <option value="finance">Finance & Banque</option>
-                                    <option value="marketing">Marketing & Communication</option>
-                                    <option value="sante">Santé & Médical</option>
-                                    <option value="education">Éducation & Formation</option>
-                                    <option value="commerce">Commerce & Vente</option>
-                                    <option value="industrie">Industrie & Production</option>
-                                    <option value="logistique">Logistique & Transport</option>
-                                    <option value="immobilier">Immobilier & Construction</option>
-                                    <option value="tourisme">Tourisme & Hôtellerie</option>
-                                    <option value="agriculture">Agriculture & Environnement</option>
-                                    <option value="juridique">Juridique & Droit</option>
-                                    <option value="consulting">Consulting & Conseil</option>
-                                    <option value="assurance">Assurance & Gestion</option>
-                                    <option value="media">Médias & Divertissement</option>
-                                    <option value="sport">Sport & Fitness</option>
-                                    <option value="art">Art & Culture</option>
-                                    <option value="autre">Autre</option>
-                                </select>
-                                <small class="form-help">Maintenez Ctrl (Cmd sur Mac) pour sélectionner plusieurs options</small>
-                            </div>
-
-                            <div id="companyNeeds" class="form-group" style="display: none;">
-                                <label>Besoins de recrutement :</label>
-                                <select name="hiringNeeds" class="form-dropdown">
-                                    <option value="">Sélectionnez vos besoins</option>
-                                    <option value="1-5">1-5 postes/an</option>
-                                    <option value="6-20">6-20 postes/an</option>
-                                    <option value="20+">20+ postes/an</option>
-                                    <option value="ponctuel">Besoins ponctuels</option>
-                                </select>
-                            </div>
-
-                            <div id="companyUrgency" class="form-group" style="display: none;">
-                                <label>Urgence du recrutement :</label>
-                                <select name="urgency" class="form-dropdown">
-                                    <option value="">Sélectionnez l'urgence</option>
-                                    <option value="immediate">Immédiate (< 1 mois)</option>
-                                    <option value="court-terme">Court terme (1-3 mois)</option>
-                                    <option value="moyen-terme">Moyen terme (3-6 mois)</option>
-                                    <option value="exploration">En exploration</option>
-                                </select>
-                            </div>
-
-                            <!-- Champs spécifiques aux INVESTISSEURS -->
-                            <div id="investorFields" class="form-group" style="display: none;">
-                                <label>Type d'investissement :</label>
-                                <select name="investmentType" class="form-dropdown">
-                                    <option value="">Sélectionnez le type</option>
-                                    <option value="seed">Seed (50k-500k€)</option>
-                                    <option value="serie-a">Série A (500k-2M€)</option>
-                                    <option value="serie-b">Série B+ (2M€+)</option>
-                                    <option value="strategique">Stratégique</option>
-                                </select>
-                            </div>
-
-                            <div id="investorAmount" class="form-group" style="display: none;">
-                                <label>Montant d'investissement :</label>
-                                <select name="amount" class="form-dropdown">
-                                    <option value="">Sélectionnez le montant</option>
-                                    <option value="50k-100k">50k-100k€</option>
-                                    <option value="100k-500k">100k-500k€</option>
-                                    <option value="500k-1m">500k-1M€</option>
-                                    <option value="1m+">1M€+</option>
-                                </select>
-                            </div>
-
-                            <div id="investorSector" class="form-group" style="display: none;">
-                                <label>Secteur d'intérêt :</label>
-                                <select name="sector" class="form-dropdown" multiple>
-                                    <option value="tech">Tech & Digital</option>
-                                    <option value="finance">Finance & Banque</option>
-                                    <option value="marketing">Marketing & Communication</option>
-                                    <option value="sante">Santé & Médical</option>
-                                    <option value="education">Éducation & Formation</option>
-                                    <option value="commerce">Commerce & Vente</option>
-                                    <option value="industrie">Industrie & Production</option>
-                                    <option value="logistique">Logistique & Transport</option>
-                                    <option value="immobilier">Immobilier & Construction</option>
-                                    <option value="tourisme">Tourisme & Hôtellerie</option>
-                                    <option value="agriculture">Agriculture & Environnement</option>
-                                    <option value="juridique">Juridique & Droit</option>
-                                    <option value="consulting">Consulting & Conseil</option>
-                                    <option value="assurance">Assurance & Gestion</option>
-                                    <option value="media">Médias & Divertissement</option>
-                                    <option value="sport">Sport & Fitness</option>
-                                    <option value="art">Art & Culture</option>
-                                    <option value="autre">Autre</option>
-                                </select>
-                                <small class="form-help">Maintenez Ctrl (Cmd sur Mac) pour sélectionner plusieurs options</small>
-                            </div>
-
-                            <div id="investorTimeline" class="form-group" style="display: none;">
-                                <label>Horizon d'investissement :</label>
-                                <select name="timeline" class="form-dropdown" multiple>
-                                    <option value="immediate">Immédiat (< 3 mois)</option>
-                                    <option value="3mois">3 mois</option>
-                                    <option value="6mois">6 mois</option>
-                                    <option value="1an">1 an</option>
-                                    <option value="2ans">2 ans</option>
-                                    <option value="3ans">3 ans</option>
-                                    <option value="5ans">5 ans</option>
-                                    <option value="long-terme">Long terme (5+ ans)</option>
-                                    <option value="flexible">Flexible</option>
-                                    <option value="exploration">En exploration</option>
-                                </select>
-                                <small class="form-help">Maintenez Ctrl (Cmd sur Mac) pour sélectionner plusieurs options</small>
-                            </div>
-
-                            <!-- Champ commun : Intéressé -->
                             <div class="form-group">
-                                <label>Intéressé par WorkHub ?</label>
-                                <select name="interested" class="form-dropdown" required>
+                                <label>Échéance / Disponibilité (optionnel - choisissez 1 ou plus) :</label>
+                                <select name="timeline" class="form-dropdown" multiple>
+                                    <option value="immediate">Immédiat (< 1 mois)</option>
+                                    <option value="1-3-months">Court terme (1-3 mois)</option>
+                                    <option value="3-6-months">Moyen terme (3-6 mois)</option>
+                                    <option value="6-12-months">Long terme (6-12 mois)</option>
+                                    <option value="1-year-plus">Plus d'un an</option>
+                                    <option value="flexible">Flexible</option>
+                                    <option value="exploration">En exploration</option>
+                                </select>
+                                <small class="form-help">Maintenez Ctrl (Cmd sur Mac) pour sélectionner plusieurs options</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Budget / Fourchette (optionnel) :</label>
+                                <select name="budget" class="form-dropdown">
+                                    <option value="">Non applicable / Préfère ne pas préciser</option>
+                                    <optgroup label="💶 Salaires annuels">
+                                        <option value="salary-20k-30k">20k-30k€</option>
+                                        <option value="salary-30k-45k">30k-45k€</option>
+                                        <option value="salary-45k-60k">45k-60k€</option>
+                                        <option value="salary-60k-80k">60k-80k€</option>
+                                        <option value="salary-80k-100k">80k-100k€</option>
+                                        <option value="salary-100k-plus">100k€+</option>
+                                    </optgroup>
+                                    <optgroup label="💰 Investissement">
+                                        <option value="invest-50k-100k">50k-100k€</option>
+                                        <option value="invest-100k-250k">100k-250k€</option>
+                                        <option value="invest-250k-500k">250k-500k€</option>
+                                        <option value="invest-500k-1m">500k-1M€</option>
+                                        <option value="invest-1m-5m">1M-5M€</option>
+                                        <option value="invest-5m-plus">5M€+</option>
+                                    </optgroup>
+                                    <optgroup label="🏢 Budget recrutement">
+                                        <option value="recruit-1-5">1-5 postes/an</option>
+                                        <option value="recruit-5-20">5-20 postes/an</option>
+                                        <option value="recruit-20-50">20-50 postes/an</option>
+                                        <option value="recruit-50-plus">50+ postes/an</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Niveau d'intérêt pour WorkHub (optionnel) :</label>
+                                <select name="interest" class="form-dropdown">
                                     <option value="">Sélectionnez votre niveau d'intérêt</option>
-                                    <option value="oui">Oui, très intéressé !</option>
-                                    <option value="peut-etre">Peut-être, je veux en savoir plus</option>
-                                    <option value="non">Non, pas pour le moment</option>
+                                    <option value="very-interested">Très intéressé - Je veux en savoir plus rapidement</option>
+                                    <option value="interested">Intéressé - Tenez-moi informé</option>
+                                    <option value="curious">Curieux - J'explore les options</option>
+                                    <option value="maybe-later">Peut-être plus tard</option>
                                 </select>
                             </div>
 
@@ -790,8 +717,8 @@
                             </div>
 
                             <div class="form-group">
-                                <label>Détails supplémentaires (optionnel) :</label>
-                                <textarea name="details" placeholder="Parlez-nous de vos besoins spécifiques..."></textarea>
+                                <label>Votre message / Détails supplémentaires (optionnel) :</label>
+                                <textarea name="message" placeholder="Parlez-nous de vos besoins, objectifs, défis, ou toute autre information que vous souhaitez partager..."></textarea>
                             </div>
 
                             <div class="form-actions">
