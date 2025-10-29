@@ -121,6 +121,23 @@
     </script>
 </head>
 <body>
+    <!-- Static Loader - Entrance Screen -->
+    <div id="static-loader" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; z-index: 10001;">
+        <!-- Dark Red Background - Fills space behind videos during fade transitions -->
+        <div id="entrance-bg-fill" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #3d0000 0%, #1a0505 50%, #000000 100%); z-index: -1;"></div>
+        <!-- Video Background - Two videos for seamless cross-fade looping -->
+        <video id="entrance-video-1" autoplay muted playsinline style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; background: radial-gradient(circle at center, #3d0000 0%, #1a0505 50%, #000000 100%); opacity: 1;">
+            <source src="Assets/WorkHub.mp4" type="video/mp4">
+        </video>
+        <video id="entrance-video-2" muted playsinline style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; background: radial-gradient(circle at center, #3d0000 0%, #1a0505 50%, #000000 100%); opacity: 0;">
+            <source src="Assets/WorkHub.mp4" type="video/mp4">
+        </video>
+        <!-- Dark Red/Burgundy Overlay for Transparency Effect -->
+        <div id="entrance-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, rgba(61, 0, 0, 0.6) 0%, rgba(26, 5, 5, 0.7) 50%, rgba(0, 0, 0, 0.8) 100%); z-index: 1; pointer-events: none;"></div>
+        <!-- Logo Button (on top of video and overlay) -->
+        <button id="enter-portfolio-btn" style="display: none; position: relative; z-index: 2;"><img src="Assets/LogoTransparent.png" alt="Enter WorkHub" /></button>
+    </div>
+
     <!-- Navigation -->
     <header>
         <nav class="navbar" role="navigation" aria-label="Menu principal">

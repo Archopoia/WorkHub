@@ -2902,3 +2902,356 @@ h3 {
         font-size: 0.75rem;
     }
 }
+
+/* ============================================
+   ENTRANCE SCREEN STYLES
+   Video background, vignette effect, logo animations
+   ============================================ */
+
+/* Entrance Video Background */
+#entrance-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+/* Dark Red/Burgundy Overlay - Creates transparency effect on video */
+#entrance-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Adjust opacity values to control how much dark red shows through */
+    /* Lower opacity (0.3-0.5) = more video visible, less burgundy */
+    /* Higher opacity (0.7-0.9) = less video visible, more burgundy */
+    background: radial-gradient(
+        circle at center,
+        rgba(61, 0, 0, 0.6) 0%,      /* Dark red center - adjust opacity (0.0-1.0) */
+        rgba(26, 5, 5, 0.7) 50%,      /* Darker red middle */
+        rgba(0, 0, 0, 0.8) 100%       /* Black edges */
+    );
+    z-index: 1; /* Between video (0) and logo button (2) */
+    pointer-events: none; /* Allow clicks to pass through */
+}
+
+/* Static loader container */
+#static-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10001;
+    overflow: hidden;
+    /* Dark red background as fallback */
+    background: radial-gradient(circle at center, #3d0000 0%, #1a0505 50%, #000000 100%);
+}
+
+/* Dark red background fill - Shows during video fade transitions */
+#entrance-bg-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, #3d0000 0%, #1a0505 50%, #000000 100%);
+    z-index: -1;
+}
+
+/* Lock body scrolling when entrance screen is active */
+body.entrance-active {
+    overflow: hidden !important;
+    position: fixed !important;
+    width: 100% !important;
+    height: 100vh !important;
+}
+
+/* Permanent vignette effect - dark burgundy corners fading to black */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100vh;
+    min-height: 100vh;
+    pointer-events: none;
+    z-index: 10002;
+    background:
+        radial-gradient(
+            ellipse at center,
+            transparent 0%,
+            transparent 40%,
+            rgba(61, 0, 0, 0.3) 70%,
+            rgba(26, 5, 5, 0.6) 85%,
+            rgba(0, 0, 0, 0.8) 100%
+        );
+}
+
+/* Enter Portfolio Button - Simple styling for logo image */
+#enter-portfolio-btn {
+    background: none !important;
+    background-color: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: inherit !important;
+    font: inherit !important;
+    text-decoration: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+#enter-portfolio-btn img {
+    /* Logo size - adjust these values to change the logo size */
+    width: 300px;        /* Change this to your preferred width */
+    height: auto;        /* Maintains aspect ratio */
+    max-width: 500px;    /* Maximum size limit */
+    /* Alternative: use percentage for responsive sizing */
+    /* width: 30%; */
+
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    /* Smooth transition for all effects including filter */
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                filter 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    /* Subtle pulsing glow to indicate interactivity - 1s pulse + 2s pause */
+    animation: logoPulse 3s ease-in-out infinite;
+}
+
+#enter-portfolio-btn:hover {
+    opacity: 1 !important;
+    background: none !important;
+    background-color: transparent !important;
+    transform: none !important;
+}
+
+#enter-portfolio-btn:hover img {
+    /* Start the magical discovery animation */
+    animation: logoDiscovery 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards, logoGlow 2s ease-in-out infinite alternate 0.8s;
+}
+
+/* Smooth reverse transition when hover ends - only when not hovering AND after having been hovered */
+#enter-portfolio-btn.was-hovered:not(:hover) img {
+    animation: logoReverse 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards, logoPulse 3s ease-in-out infinite 0.8s;
+}
+
+/* Logo discovery animation - smooth transition from burgundy to solar beige */
+@keyframes logoDiscovery {
+    0% {
+        /* Start with deep burgundy glow matching background */
+        filter:
+            drop-shadow(0 0 4px rgba(61, 0, 0, 0.8))
+            drop-shadow(0 0 8px rgba(61, 0, 0, 0.6))
+            drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
+    }
+    20% {
+        /* Transition to burgundy-brown */
+        filter:
+            drop-shadow(0 0 6px rgba(61, 0, 0, 0.7))
+            drop-shadow(0 0 12px rgba(90, 26, 26, 0.5))
+            drop-shadow(0 0 18px rgba(139, 69, 19, 0.3))
+            drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
+    }
+    40% {
+        /* Continue to brown-beige transition */
+        filter:
+            drop-shadow(0 0 8px rgba(90, 26, 26, 0.6))
+            drop-shadow(0 0 16px rgba(139, 69, 19, 0.4))
+            drop-shadow(0 0 24px rgba(229, 188, 95, 0.3))
+            drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
+    }
+    60% {
+        /* Transition to beige with initial sparkles */
+        filter:
+            drop-shadow(0 0 10px rgba(139, 69, 19, 0.5))
+            drop-shadow(0 0 20px rgba(238, 203, 119, 0.4))
+            drop-shadow(0 0 30px rgba(250, 218, 138, 0.3))
+            drop-shadow(0 0 4px rgba(255, 248, 220, 0.4))
+            drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
+    }
+    80% {
+        /* Almost full beige with more sparkles */
+        filter:
+            drop-shadow(0 0 12px rgba(238, 203, 119, 0.6))
+            drop-shadow(0 0 24px rgba(250, 218, 138, 0.5))
+            drop-shadow(0 0 36px rgba(255, 236, 179, 0.3))
+            drop-shadow(0 0 6px rgba(255, 248, 220, 0.5))
+            drop-shadow(0 0 12px rgba(255, 250, 230, 0.2))
+            drop-shadow(2px 2px 6px rgba(0, 0, 0, 0.5));
+    }
+    100% {
+        /* Full solar beige magical state - warm beige glow */
+        filter:
+            drop-shadow(0 0 12px rgba(250, 218, 138, 0.6))
+            drop-shadow(0 0 24px rgba(255, 236, 179, 0.4))
+            drop-shadow(0 0 36px rgba(255, 245, 220, 0.2))
+            drop-shadow(0 0 6px rgba(255, 248, 220, 0.6))
+            drop-shadow(0 0 12px rgba(255, 250, 230, 0.3))
+            drop-shadow(2px 2px 6px rgba(0, 0, 0, 0.5));
+    }
+}
+
+/* Reverse animation - smooth transition back to default state */
+@keyframes logoReverse {
+    0% {
+        /* Start from the current magical state */
+        filter:
+            drop-shadow(0 0 12px rgba(250, 218, 138, 0.6))
+            drop-shadow(0 0 24px rgba(255, 236, 179, 0.4))
+            drop-shadow(0 0 36px rgba(255, 245, 220, 0.2))
+            drop-shadow(0 0 6px rgba(255, 248, 220, 0.6))
+            drop-shadow(0 0 12px rgba(255, 250, 230, 0.3))
+            drop-shadow(2px 2px 6px rgba(0, 0, 0, 0.5));
+    }
+    25% {
+        /* Fade out sparkles and reduce beige glow */
+        filter:
+            drop-shadow(0 0 10px rgba(250, 218, 138, 0.4))
+            drop-shadow(0 0 20px rgba(255, 236, 179, 0.3))
+            drop-shadow(0 0 30px rgba(255, 245, 220, 0.1))
+            drop-shadow(0 0 4px rgba(255, 248, 220, 0.3))
+            drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.4));
+    }
+    50% {
+        /* Continue fading to burgundy tones */
+        filter:
+            drop-shadow(0 0 8px rgba(238, 203, 119, 0.3))
+            drop-shadow(0 0 16px rgba(250, 218, 138, 0.2))
+            drop-shadow(0 0 24px rgba(255, 236, 179, 0.1))
+            drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+    }
+    75% {
+        /* Transition to burgundy-brown */
+        filter:
+            drop-shadow(0 0 6px rgba(139, 69, 19, 0.4))
+            drop-shadow(0 0 12px rgba(229, 188, 95, 0.2))
+            drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+    }
+    100% {
+        /* Return to deep burgundy matching background */
+        filter:
+            drop-shadow(0 0 4px rgba(61, 0, 0, 0.6))
+            drop-shadow(0 0 8px rgba(61, 0, 0, 0.4))
+            drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+    }
+}
+
+/* Magical logo glow animation */
+@keyframes logoGlow {
+    0% {
+        /* Keep logo visible with warm beige glow and sparkles */
+        filter:
+            drop-shadow(0 0 12px rgba(250, 218, 138, 0.6))
+            drop-shadow(0 0 24px rgba(255, 236, 179, 0.4))
+            drop-shadow(0 0 36px rgba(255, 245, 220, 0.2))
+            drop-shadow(0 0 6px rgba(255, 248, 220, 0.6))
+            drop-shadow(0 0 12px rgba(255, 250, 230, 0.3))
+            drop-shadow(2px 2px 6px rgba(0, 0, 0, 0.5));
+    }
+    100% {
+        /* Slightly more intense solar beige glow with sparkles */
+        filter:
+            drop-shadow(0 0 15px rgba(250, 218, 138, 0.7))
+            drop-shadow(0 0 30px rgba(255, 236, 179, 0.5))
+            drop-shadow(0 0 45px rgba(255, 245, 220, 0.3))
+            drop-shadow(0 0 8px rgba(255, 248, 220, 0.7))
+            drop-shadow(0 0 16px rgba(255, 250, 230, 0.4))
+            drop-shadow(2px 2px 8px rgba(0, 0, 0, 0.6));
+    }
+}
+
+/* Golden flash animation for page transition */
+@keyframes goldenFlash {
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+    10% {
+        width: 20px;
+        height: 20px;
+        opacity: 1;
+    }
+    30% {
+        width: 200px;
+        height: 200px;
+        opacity: 1;
+    }
+    60% {
+        width: 800px;
+        height: 800px;
+        opacity: 1;
+    }
+    80% {
+        width: 1500px;
+        height: 1500px;
+        opacity: 1;
+    }
+    100% {
+        width: 3000px;
+        height: 3000px;
+        opacity: 1;
+    }
+}
+
+/* Subtle pulsing glow to indicate interactivity - 1s pulse + 2s pause = 3s total */
+@keyframes logoPulse {
+    0% {
+        /* Starting state - minimal burgundy glow */
+        filter: drop-shadow(0 0 8px rgba(61, 0, 0, 0.6))
+                drop-shadow(0 0 16px rgba(61, 0, 0, 0.4))
+                drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
+    }
+    16.67% {
+        /* Peak glow - more visible burgundy-beige (0.5s into 3s = 16.67%) */
+        filter: drop-shadow(0 0 12px rgba(139, 69, 19, 0.7))
+                drop-shadow(0 0 24px rgba(247, 210, 126, 0.5))
+                drop-shadow(0 0 36px rgba(243, 210, 132, 0.3))
+                drop-shadow(2px 2px 6px rgba(0, 0, 0, 0.6));
+    }
+    20% {
+        /* Continue to brown-beige transition */
+        filter:
+            drop-shadow(0 0 8px rgba(90, 26, 26, 0.6)) drop-shadow(0 0 16px rgba(139, 69, 19, 0.4)) drop-shadow(0 0 24px rgba(229, 188, 95, 0.3)) drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
+    }
+    33.33% {
+        /* Back to minimal - end of 1s pulse (1s into 3s = 33.33%) */
+        filter: drop-shadow(0 0 8px rgba(61, 0, 0, 0.6))
+                drop-shadow(0 0 16px rgba(61, 0, 0, 0.4))
+                drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
+    }
+    100% {
+        /* Maintain minimal state for the pause period */
+        filter: drop-shadow(0 0 8px rgba(61, 0, 0, 0.6))
+                drop-shadow(0 0 16px rgba(61, 0, 0, 0.4))
+                drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
+    }
+}
+
+/* Fade out animation */
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}

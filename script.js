@@ -12,6 +12,281 @@
 
 document.addEventListener('DOMContentLoaded', function() {
 
+    // ============================================
+    // ENTRANCE SCREEN LOGIC
+    // Dark red background, vignette effect, logo animations
+    // ============================================
+    const staticLoader = document.getElementById('static-loader');
+    const enterButton = document.getElementById('enter-portfolio-btn');
+
+    // Lock body scrolling on entrance screen
+    document.body.classList.add('entrance-active');
+
+    // Add hover tracking for proper animation cycling
+    if (enterButton) {
+        enterButton.addEventListener('mouseenter', () => {
+            enterButton.classList.add('was-hovered');
+        });
+    }
+
+    // ============================================
+    // VIDEO LOOP CROSS-FADE TRANSITION
+    // Seamless cross-fade between two video elements for smooth looping
+    // ============================================
+    const entranceVideo1 = document.getElementById('entrance-video-1');
+    const entranceVideo2 = document.getElementById('entrance-video-2');
+
+    if (entranceVideo1 && entranceVideo2) {
+        const fadeDuration = 3.0; // seconds - adjust this value to change fade duration
+        let video1Active = true;
+        let isCrossFading = false;
+        let videoDuration = 0;
+
+        // Set CSS transitions for smooth opacity changes
+        entranceVideo1.style.transition = `opacity ${fadeDuration}s ease-in-out`;
+        entranceVideo2.style.transition = `opacity ${fadeDuration}s ease-in-out`;
+
+        // Initialize video 1
+        entranceVideo1.addEventListener('loadedmetadata', function() {
+            videoDuration = this.duration;
+            console.log('Video duration:', videoDuration);
+        });
+
+        // Handle video 1 ending (manually loop)
+        entranceVideo1.addEventListener('timeupdate', function() {
+            if (!video1Active || isCrossFading) return;
+
+            const currentTime = this.currentTime;
+            const duration = this.duration;
+
+            // Check if we're within fade duration of the end
+            if (duration > 0 && currentTime >= duration - fadeDuration) {
+                isCrossFading = true;
+
+                // Preload and start video 2
+                entranceVideo2.currentTime = 0;
+                entranceVideo2.play().then(() => {
+                    // Start cross-fade
+                    entranceVideo1.style.opacity = '0';
+                    entranceVideo2.style.opacity = '1';
+                    video1Active = false;
+
+                    // After fade completes, pause and reset video 1
+                    setTimeout(() => {
+                        entranceVideo1.pause();
+                        entranceVideo1.currentTime = 0;
+                        isCrossFading = false;
+                    }, fadeDuration * 1000);
+                }).catch(err => {
+                    console.error('Error playing video 2:', err);
+                    isCrossFading = false;
+                });
+            }
+        });
+
+        // Handle video 1 ended event as backup
+        entranceVideo1.addEventListener('ended', function() {
+            if (video1Active && !isCrossFading) {
+                // Immediately start video 2 if we missed the timeupdate
+                isCrossFading = true;
+                entranceVideo2.currentTime = 0;
+                entranceVideo2.play().then(() => {
+                    entranceVideo1.style.opacity = '0';
+                    entranceVideo2.style.opacity = '1';
+                    video1Active = false;
+                    setTimeout(() => {
+                        entranceVideo1.currentTime = 0;
+                        isCrossFading = false;
+                    }, fadeDuration * 1000);
+                });
+            }
+        });
+
+        // Handle video 2 ending (manually loop back to video 1)
+        entranceVideo2.addEventListener('timeupdate', function() {
+            if (video1Active || isCrossFading) return;
+
+            const currentTime = this.currentTime;
+            const duration = this.duration;
+
+            // Check if we're within fade duration of the end
+            if (duration > 0 && currentTime >= duration - fadeDuration) {
+                isCrossFading = true;
+
+                // Preload and start video 1
+                entranceVideo1.currentTime = 0;
+                entranceVideo1.play().then(() => {
+                    // Start cross-fade
+                    entranceVideo2.style.opacity = '0';
+                    entranceVideo1.style.opacity = '1';
+                    video1Active = true;
+
+                    // After fade completes, pause and reset video 2
+                    setTimeout(() => {
+                        entranceVideo2.pause();
+                        entranceVideo2.currentTime = 0;
+                        isCrossFading = false;
+                    }, fadeDuration * 1000);
+                }).catch(err => {
+                    console.error('Error playing video 1:', err);
+                    isCrossFading = false;
+                });
+            }
+        });
+
+        // Handle video 2 ended event as backup
+        entranceVideo2.addEventListener('ended', function() {
+            if (!video1Active && !isCrossFading) {
+                // Immediately start video 1 if we missed the timeupdate
+                isCrossFading = true;
+                entranceVideo1.currentTime = 0;
+                entranceVideo1.play().then(() => {
+                    entranceVideo2.style.opacity = '0';
+                    entranceVideo1.style.opacity = '1';
+                    video1Active = true;
+                    setTimeout(() => {
+                        entranceVideo2.currentTime = 0;
+                        isCrossFading = false;
+                    }, fadeDuration * 1000);
+                });
+            }
+        });
+    }
+
+    // Unlock audio on user interaction (simplified version without sound system)
+    let entranceUnlocked = false;
+    const unlockEntrance = () => {
+        if (entranceUnlocked) return;
+        entranceUnlocked = true;
+
+        // Hide button
+        if (enterButton) {
+            enterButton.style.display = 'none';
+        }
+
+        // Fade out the static loader
+        if (staticLoader) {
+            // Pause both videos
+            const video1 = document.getElementById('entrance-video-1');
+            const video2 = document.getElementById('entrance-video-2');
+            if (video1) video1.pause();
+            if (video2) video2.pause();
+
+            staticLoader.style.animation = 'fadeOut 1.5s ease-in-out forwards';
+
+            setTimeout(() => {
+                // Remove the static loader from DOM
+                if (staticLoader && staticLoader.parentNode) {
+                    staticLoader.remove();
+                }
+                // Unlock body scrolling
+                document.body.classList.remove('entrance-active');
+            }, 1500);
+        }
+    };
+
+    // Try to autoplay immediately (will work if user has high MEI or on some browsers)
+    setTimeout(() => {
+        // Check if user has interacted before showing button
+        // For WorkHub, we'll always show the button after a short delay if no autoplay
+        if (enterButton) {
+            enterButton.style.display = 'block';
+        }
+
+        // Unlock on button click
+        if (enterButton) {
+            enterButton.addEventListener('click', () => {
+                // Prevent fallback handler from running
+                window.logoClickInProgress = true;
+
+                // Unlock body scrolling immediately on click
+                document.body.classList.remove('entrance-active');
+
+                // Create a beautiful golden flash element that purges everything
+                const flashElement = document.createElement('div');
+                flashElement.id = 'golden-flash';
+                flashElement.style.cssText = `
+                    position: fixed;
+                    top: 47%;
+                    left: 50%;
+                    width: 0;
+                    height: 0;
+                    background: radial-gradient(circle,
+                        rgba(255, 235, 198, 1) 0%,
+                        rgba(255, 235, 198, 0.8) 20%,
+                        rgba(255, 235, 198, 0.4) 35%,
+                        rgba(255, 235, 198, 0.1) 50%,
+                        transparent 70%);
+                    transform: translate(-50%, -50%);
+                    border-radius: 50%;
+                    pointer-events: none;
+                    z-index: 10001;
+                    opacity: 1;
+                `;
+                document.body.appendChild(flashElement);
+
+                // Start the flash animation immediately - it purges everything
+                flashElement.style.animation = 'goldenFlash 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards';
+
+                // Wait for the flash to completely cover the screen
+                setTimeout(() => {
+                    // Flash is at maximum - hide the entrance background underneath
+                    // Pause both videos
+                    const video1 = document.getElementById('entrance-video-1');
+                    const video2 = document.getElementById('entrance-video-2');
+                    if (video1) video1.pause();
+                    if (video2) video2.pause();
+
+                    if (staticLoader) {
+                        staticLoader.style.display = 'none';
+                    }
+                    if (enterButton) {
+                        enterButton.style.display = 'none';
+                    }
+
+                    // Remove the goldenFlash animation first to release the animation-fill-mode
+                    flashElement.style.animation = 'none';
+                    // Force a reflow to ensure the animation change is registered
+                    void flashElement.offsetHeight;
+
+                    // Now set the final dimensions as inline styles
+                    flashElement.style.width = '3000px';
+                    flashElement.style.height = '3000px';
+
+                    // Apply fadeOut animation
+                    flashElement.style.animation = 'fadeOut 1.5s ease-in-out forwards';
+
+                    // After flash fades out, show the website content
+                    setTimeout(() => {
+                        // Remove the static loader from DOM
+                        if (staticLoader && staticLoader.parentNode) {
+                            staticLoader.remove();
+                        }
+
+                        // Clean up flash element
+                        if (flashElement.parentNode) {
+                            flashElement.parentNode.removeChild(flashElement);
+                        }
+
+                        // Unlock entrance
+                        entranceUnlocked = true;
+                    }, 1500); // Wait for fadeOut animation to complete
+                }, 1200); // Wait for the full flash animation to complete
+            }, { once: true });
+        }
+
+        // Also handle regular clicks anywhere as fallback
+        document.addEventListener('click', (e) => {
+            if (!entranceUnlocked && !window.logoClickInProgress && e.target !== enterButton && !e.target.closest('#enter-portfolio-btn')) {
+                unlockEntrance();
+            }
+        }, { once: true });
+    }, 500);
+
+    // ============================================
+    // END OF ENTRANCE SCREEN LOGIC
+    // ============================================
+
     // Smooth scrolling for navigation links
     const navLinks = document.querySelectorAll('a[href^="#"]');
 
