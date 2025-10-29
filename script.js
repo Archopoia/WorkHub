@@ -161,6 +161,85 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Unlock audio on user interaction (simplified version without sound system)
     let entranceUnlocked = false;
+
+    // Function to trigger golden flash animation and transition
+    const triggerFlashAnimation = () => {
+        if (entranceUnlocked || window.logoClickInProgress) return;
+        entranceUnlocked = true;
+        window.logoClickInProgress = true;
+
+        // Unlock body scrolling immediately on click
+        document.body.classList.remove('entrance-active');
+
+        // Create a beautiful golden flash element that purges everything
+        const flashElement = document.createElement('div');
+        flashElement.id = 'golden-flash';
+        flashElement.style.cssText = `
+            position: fixed;
+            top: 47%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle,
+                rgba(255, 235, 198, 1) 0%,
+                rgba(255, 235, 198, 0.8) 20%,
+                rgba(255, 235, 198, 0.4) 35%,
+                rgba(255, 235, 198, 0.1) 50%,
+                transparent 70%);
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10001;
+            opacity: 1;
+        `;
+        document.body.appendChild(flashElement);
+
+        // Start the flash animation immediately - it purges everything
+        flashElement.style.animation = 'goldenFlash 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards';
+
+        // Wait for the flash to completely cover the screen
+        setTimeout(() => {
+            // Flash is at maximum - hide the entrance background underneath
+            // Pause both videos
+            const video1 = document.getElementById('entrance-video-1');
+            const video2 = document.getElementById('entrance-video-2');
+            if (video1) video1.pause();
+            if (video2) video2.pause();
+
+            if (staticLoader) {
+                staticLoader.style.display = 'none';
+            }
+            if (enterButton) {
+                enterButton.style.display = 'none';
+            }
+
+            // Remove the goldenFlash animation first to release the animation-fill-mode
+            flashElement.style.animation = 'none';
+            // Force a reflow to ensure the animation change is registered
+            void flashElement.offsetHeight;
+
+            // Now set the final dimensions as inline styles
+            flashElement.style.width = '3000px';
+            flashElement.style.height = '3000px';
+
+            // Apply fadeOut animation
+            flashElement.style.animation = 'fadeOut 1.5s ease-in-out forwards';
+
+            // After flash fades out, show the website content
+            setTimeout(() => {
+                // Remove the static loader from DOM
+                if (staticLoader && staticLoader.parentNode) {
+                    staticLoader.remove();
+                }
+
+                // Clean up flash element
+                if (flashElement.parentNode) {
+                    flashElement.parentNode.removeChild(flashElement);
+                }
+            }, 1500); // Wait for fadeOut animation to complete
+        }, 1200); // Wait for the full flash animation to complete
+    };
+
     const unlockEntrance = () => {
         if (entranceUnlocked) return;
         entranceUnlocked = true;
@@ -199,94 +278,31 @@ document.addEventListener('DOMContentLoaded', function() {
             enterButton.style.display = 'block';
         }
 
-        // Unlock on button click
-        if (enterButton) {
-            enterButton.addEventListener('click', () => {
-                // Prevent fallback handler from running
-                window.logoClickInProgress = true;
+        // Handle clicks ANYWHERE on the page while entrance screen is active
+        // This will trigger the flash animation from anywhere
+        const handleEntranceClick = (e) => {
+            if (!entranceUnlocked && !window.logoClickInProgress) {
+                // Any click anywhere triggers the flash
+                e.preventDefault(); // Prevent any default behavior
+                e.stopPropagation(); // Stop event bubbling
+                triggerFlashAnimation();
 
-                // Unlock body scrolling immediately on click
-                document.body.classList.remove('entrance-active');
-
-                // Create a beautiful golden flash element that purges everything
-                const flashElement = document.createElement('div');
-                flashElement.id = 'golden-flash';
-                flashElement.style.cssText = `
-                    position: fixed;
-                    top: 47%;
-                    left: 50%;
-                    width: 0;
-                    height: 0;
-                    background: radial-gradient(circle,
-                        rgba(255, 235, 198, 1) 0%,
-                        rgba(255, 235, 198, 0.8) 20%,
-                        rgba(255, 235, 198, 0.4) 35%,
-                        rgba(255, 235, 198, 0.1) 50%,
-                        transparent 70%);
-                    transform: translate(-50%, -50%);
-                    border-radius: 50%;
-                    pointer-events: none;
-                    z-index: 10001;
-                    opacity: 1;
-                `;
-                document.body.appendChild(flashElement);
-
-                // Start the flash animation immediately - it purges everything
-                flashElement.style.animation = 'goldenFlash 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards';
-
-                // Wait for the flash to completely cover the screen
-                setTimeout(() => {
-                    // Flash is at maximum - hide the entrance background underneath
-                    // Pause both videos
-                    const video1 = document.getElementById('entrance-video-1');
-                    const video2 = document.getElementById('entrance-video-2');
-                    if (video1) video1.pause();
-                    if (video2) video2.pause();
-
-                    if (staticLoader) {
-                        staticLoader.style.display = 'none';
-                    }
-                    if (enterButton) {
-                        enterButton.style.display = 'none';
-                    }
-
-                    // Remove the goldenFlash animation first to release the animation-fill-mode
-                    flashElement.style.animation = 'none';
-                    // Force a reflow to ensure the animation change is registered
-                    void flashElement.offsetHeight;
-
-                    // Now set the final dimensions as inline styles
-                    flashElement.style.width = '3000px';
-                    flashElement.style.height = '3000px';
-
-                    // Apply fadeOut animation
-                    flashElement.style.animation = 'fadeOut 1.5s ease-in-out forwards';
-
-                    // After flash fades out, show the website content
-                    setTimeout(() => {
-                        // Remove the static loader from DOM
-                        if (staticLoader && staticLoader.parentNode) {
-                            staticLoader.remove();
-                        }
-
-                        // Clean up flash element
-                        if (flashElement.parentNode) {
-                            flashElement.parentNode.removeChild(flashElement);
-                        }
-
-                        // Unlock entrance
-                        entranceUnlocked = true;
-                    }, 1500); // Wait for fadeOut animation to complete
-                }, 1200); // Wait for the full flash animation to complete
-            }, { once: true });
-        }
-
-        // Also handle regular clicks anywhere as fallback
-        document.addEventListener('click', (e) => {
-            if (!entranceUnlocked && !window.logoClickInProgress && e.target !== enterButton && !e.target.closest('#enter-portfolio-btn')) {
-                unlockEntrance();
+                // Remove this listener after triggering flash
+                document.removeEventListener('click', handleEntranceClick, true);
+                if (staticLoader) {
+                    staticLoader.removeEventListener('click', handleEntranceClick);
+                }
             }
-        }, { once: true });
+        };
+
+        // Add click listener to document to catch ALL clicks
+        // Use capture phase to intercept clicks before other handlers
+        document.addEventListener('click', handleEntranceClick, true);
+
+        // Also add click listener to static loader itself
+        if (staticLoader) {
+            staticLoader.addEventListener('click', handleEntranceClick);
+        }
     }, 500);
 
     // ============================================

@@ -175,7 +175,7 @@ body {
     background: rgba(0, 0, 0, 0.95);
     backdrop-filter: blur(10px);
     border-bottom: 3px solid var(--color-accent-gold);
-    z-index: 1000;
+    z-index: 10003; /* Above vignette effect (z-index: 10002) */
     padding: 1rem 0;
     box-shadow: 0 4px 20px rgba(212, 175, 55, 0.2);
 }
@@ -187,6 +187,9 @@ body {
 }
 
 .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
     font-family: var(--font-display);
     font-size: 1.8rem;
     font-weight: 900;
@@ -196,6 +199,20 @@ body {
     background-clip: text;
     letter-spacing: 3px;
     text-transform: uppercase;
+}
+
+.nav-logo {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(212, 175, 55, 0.3));
+    transition: transform var(--transition-normal);
+    position: relative;
+    z-index: 10004; /* Above navbar and vignette */
+}
+
+.nav-logo:hover {
+    transform: scale(1.05);
 }
 
 .nav-links {
@@ -248,6 +265,7 @@ body {
     background-color: var(--color-background);
     color: var(--color-white);
     overflow: hidden;
+    padding-top: 100px; /* Add space for fixed navbar */
 }
 
 /* Video backgrounds */
@@ -326,11 +344,10 @@ body {
     position: relative;
     z-index: 2;
     text-align: center;
-    padding: var(--spacing-lg) 0;
     border: 3px solid var(--color-accent-gold);
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(10px);
-    padding: 4rem 3rem;
+    padding: 6rem 3rem 4rem 3rem; /* Increased top padding for more space from navbar */
     position: relative;
 }
 
@@ -2522,6 +2539,32 @@ h3 {
    FOOTER
    ============================================ */
 
+.footer-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+.footer-logo-img {
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+    opacity: 0.8;
+    filter: drop-shadow(0 2px 8px rgba(212, 175, 55, 0.2));
+    transition: opacity var(--transition-normal);
+}
+
+.footer-logo-img:hover {
+    opacity: 1;
+}
+
+.footer .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .footer {
     background: var(--color-background);
     color: var(--color-text);
@@ -2593,7 +2636,12 @@ h3 {
     }
 
     .nav-brand {
+        gap: 0.5rem;
         font-size: 1.5rem;
+    }
+
+    .nav-logo {
+        height: 32px;
     }
 
     /* Special text classes responsive */
@@ -2953,6 +3001,7 @@ h3 {
     overflow: hidden;
     /* Dark red background as fallback */
     background: radial-gradient(circle at center, #3d0000 0%, #1a0505 50%, #000000 100%);
+    cursor: pointer; /* Indicate that the entrance screen is clickable */
 }
 
 /* Dark red background fill - Shows during video fade transitions */
