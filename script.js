@@ -2,10 +2,17 @@
 
 // Initialize EmailJS with configuration from config.js
 (function() {
-    if (typeof WORKHUB_CONFIG !== 'undefined' && WORKHUB_CONFIG.emailjs) {
-        emailjs.init(WORKHUB_CONFIG.emailjs.publicKey);
+    // Check if emailjs is loaded and available
+    if (typeof emailjs !== 'undefined' && typeof WORKHUB_CONFIG !== 'undefined' && WORKHUB_CONFIG.emailjs) {
+        try {
+            emailjs.init(WORKHUB_CONFIG.emailjs.publicKey);
+        } catch (error) {
+            console.warn('EmailJS initialization failed:', error);
+        }
+    } else if (typeof emailjs === 'undefined') {
+        console.warn('EmailJS library not loaded. Email functionality will be disabled.');
     } else {
-        console.error('Configuration not loaded. Please ensure config.js is loaded before script.js');
+        console.warn('WorkHub configuration not loaded. Please ensure config.js is loaded before script.js');
     }
 })();
 
@@ -49,7 +56,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // Initialize video 1
         entranceVideo1.addEventListener('loadedmetadata', function() {
             videoDuration = this.duration;
-            console.log('Video duration:', videoDuration);
         });
 
         // Handle video 1 ending (manually loop)
