@@ -184,6 +184,31 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative; /* Allow absolute positioning of nav-brand */
+}
+
+/* Invisible placeholder to reserve space for nav-brand so tabs don't shift */
+.nav-brand-placeholder {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    /* Match nav-brand width including logo space - calculate dynamically via JS */
+    min-width: 240px; /* Approximate width: logo (~50px) + gap (0.75rem) + "WorkHub" text (~160px) */
+    height: 40px;
+    flex-shrink: 0;
+}
+
+/* Hide placeholder when nav-brand is in its final position */
+.nav-brand-placeholder.hidden {
+    display: none;
 }
 
 .nav-brand {
@@ -193,12 +218,74 @@ body {
     font-family: var(--font-display);
     font-size: 1.8rem;
     font-weight: 900;
+    /* Initially centered on landing page */
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 1;
+    transition: left 0.6s ease-out, transform 0.6s ease-out, opacity 0.5s ease-out;
+    cursor: pointer; /* Make it clickable */
+}
+
+.nav-brand-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0rem; /* Reduced gap between title and hint text */
+}
+
+.nav-brand-content h1 {
     background: linear-gradient(135deg, var(--color-accent-gold) 0%, var(--color-accent-gold-light) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     letter-spacing: 3px;
     text-transform: uppercase;
+    margin: 0;
+}
+
+/* Hint text under title on landing page */
+.nav-brand-hint {
+    font-size: 0.7rem;
+    font-style: italic;
+    color: var(--color-accent-gold-light);
+    opacity: 0.8;
+    letter-spacing: 2px;
+    text-transform: lowercase;
+    transition: opacity 0.3s ease-out;
+}
+
+/* Hide hint when nav-brand is positioned (after flash) */
+.nav-brand.nav-brand-positioned .nav-brand-hint {
+    display: none;
+}
+
+/* Adjust nav-brand-content for normal navbar layout (single row) */
+.nav-brand.nav-brand-positioned .nav-brand-content {
+    flex-direction: row;
+    align-items: center;
+}
+
+/* After flash, nav-brand moves to left position and fades back in */
+.nav-brand.nav-brand-positioned {
+    position: static;
+    left: auto;
+    transform: translateX(0);
+    opacity: 1;
+    transition: opacity 0.5s ease-in 0.3s, left 0.6s ease-out, transform 0.6s ease-out;
+    /* Fade back in after moving to left position with delay */
+}
+
+/* Add a fade-out class to animate the centered title disappearing */
+.nav-brand.fading-out {
+    opacity: 0;
+    transition: opacity 0.5s ease-out, transform 0.6s ease-out;
+}
+
+/* When both classes are present, positioned should win (fade in) */
+.nav-brand.nav-brand-positioned.fading-out,
+.nav-brand.nav-brand-positioned {
+    opacity: 1;
 }
 
 .nav-logo {
@@ -206,9 +293,20 @@ body {
     width: auto;
     object-fit: contain;
     filter: drop-shadow(0 2px 4px rgba(212, 175, 55, 0.3));
-    transition: transform var(--transition-normal);
+    transition: transform var(--transition-normal), opacity 0.5s ease-out, max-width 0.5s ease-out;
     position: relative;
     z-index: 10004; /* Above navbar and vignette */
+    opacity: 0; /* Initially hidden on landing page */
+    max-width: 0; /* Hide logo initially */
+    overflow: hidden;
+    margin-right: 0; /* No gap initially */
+}
+
+/* Show logo when flash starts */
+.nav-logo.logo-visible {
+    opacity: 1;
+    max-width: 100px; /* Show logo with smooth width transition */
+    margin-right: 0.75rem; /* Add gap between logo and text */
 }
 
 .nav-logo:hover {
@@ -220,16 +318,25 @@ body {
     gap: var(--spacing-md);
 }
 
+/* Hide nav links initially, they will fade in after entrance flash */
 .nav-links a {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out, all var(--transition-fast);
     color: var(--color-text);
     text-decoration: none;
     font-weight: 600;
-    transition: all var(--transition-fast);
     font-size: 0.95rem;
     letter-spacing: 1px;
     text-transform: uppercase;
     position: relative;
     padding-bottom: 5px;
+}
+
+/* Class to trigger fade-in animation */
+.nav-links a.nav-link-visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .nav-links a::after {
@@ -2640,8 +2747,18 @@ h3 {
         font-size: 1.5rem;
     }
 
+    .nav-brand.nav-brand-positioned {
+        position: static;
+        left: auto;
+        transform: translateX(0);
+    }
+
     .nav-logo {
         height: 32px;
+    }
+
+    .nav-logo.logo-visible {
+        width: auto;
     }
 
     /* Special text classes responsive */

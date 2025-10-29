@@ -197,6 +197,41 @@ document.addEventListener('DOMContentLoaded', function() {
         // Start the flash animation immediately - it purges everything
         flashElement.style.animation = 'goldenFlash 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards';
 
+        // Move nav-brand to left and show logo when flash starts
+        const navBrand = document.querySelector('.nav-brand');
+        const navLogo = document.querySelector('.nav-logo');
+        const navPlaceholder = document.querySelector('.nav-brand-placeholder');
+        if (navBrand) {
+            // First fade out the centered title
+            navBrand.classList.add('fading-out');
+            // Start moving to left position while fading out
+            setTimeout(() => {
+                navBrand.classList.add('nav-brand-positioned');
+                // Hide placeholder when nav-brand moves to its position
+                if (navPlaceholder) {
+                    navPlaceholder.classList.add('hidden');
+                }
+                // Remove fading-out class shortly after to allow fade-in at new position
+                setTimeout(() => {
+                    navBrand.classList.remove('fading-out');
+                }, 200); // Remove fade-out class so positioned version can fade in
+            }, 300); // Start position change mid-fade for smoother transition
+        }
+        if (navLogo) {
+            // Show logo as title fades back in at new position
+            setTimeout(() => {
+                navLogo.classList.add('logo-visible');
+            }, 800); // Show logo after title has faded back in
+        }
+
+        // Fade in navigation tabs immediately when flash starts
+        const navLinks = document.querySelectorAll('.nav-links a');
+        navLinks.forEach((link, index) => {
+            setTimeout(() => {
+                link.classList.add('nav-link-visible');
+            }, index * 80); // 80ms delay between each tab (swift but sequential)
+        });
+
         // Wait for the flash to completely cover the screen
         setTimeout(() => {
             // Flash is at maximum - hide the entrance background underneath
@@ -266,6 +301,29 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 // Unlock body scrolling
                 document.body.classList.remove('entrance-active');
+
+                // Move nav-brand to left and show logo
+                const navBrand = document.querySelector('.nav-brand');
+                const navLogo = document.querySelector('.nav-logo');
+                const navPlaceholder = document.querySelector('.nav-brand-placeholder');
+                if (navBrand) {
+                    navBrand.classList.add('nav-brand-positioned');
+                    // Hide placeholder when nav-brand moves to its position
+                    if (navPlaceholder) {
+                        navPlaceholder.classList.add('hidden');
+                    }
+                }
+                if (navLogo) {
+                    navLogo.classList.add('logo-visible');
+                }
+
+                // Fade in navigation tabs sequentially
+                const navLinks = document.querySelectorAll('.nav-links a');
+                navLinks.forEach((link, index) => {
+                    setTimeout(() => {
+                        link.classList.add('nav-link-visible');
+                    }, index * 80); // 80ms delay between each tab (swift but sequential)
+                });
             }, 1500);
         }
     };
@@ -308,6 +366,28 @@ document.addEventListener('DOMContentLoaded', function() {
     // ============================================
     // END OF ENTRANCE SCREEN LOGIC
     // ============================================
+
+    // Add click handler to nav-brand to scroll to top (only after entrance is unlocked)
+    // We'll set this up after DOM is ready, but check entranceUnlocked state on click
+    const setupNavBrandClick = () => {
+        const navBrand = document.querySelector('.nav-brand');
+        if (navBrand) {
+            navBrand.addEventListener('click', function(e) {
+                // Only scroll to top if entrance is unlocked (user has passed landing page)
+                // Check if the static loader is removed or entrance is unlocked
+                const staticLoader = document.getElementById('static-loader');
+                if (!staticLoader || entranceUnlocked) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        }
+    };
+    setupNavBrandClick();
 
     // Smooth scrolling for navigation links
     const navLinks = document.querySelectorAll('a[href^="#"]');
